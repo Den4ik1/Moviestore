@@ -1,0 +1,71 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using MoviesShop.DTO;
+using MoviesShop.Models;
+using MoviesShop.Repository;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+
+namespace MoviesShop.Controllers
+{
+    [Route("api/[controller]")]
+    public class FilmController
+    {
+        private readonly FilmRepository _repository;
+        private readonly IMapper _mapper;
+        public FilmController(FilmRepository repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
+
+        //Вывод полной информации о фсех фильмах
+        [HttpGet("{Id?}")]
+        public List<FilmDTO> getFilms(int? Id)
+        {
+            if (Id.HasValue)
+            {
+                return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id)});
+            }
+            var r = _mapper.Map<List<FilmDTO>>(_repository.GetFilms().ToList());
+            return r;
+
+        }
+
+        //Поиск по названию
+        [HttpGet("Title/{title}")]
+        public List<FilmDTO> getFilmstitle(string title)
+        {
+            var temp = _repository.GetFilmsTitle(title).ToList();
+            return _mapper.Map<List<FilmDTO>>(temp);
+        }
+
+        //Фильтрация по жанру
+        [HttpGet("genre/{genre}")]
+        public List<FilmDTO> GetFilmGanre(string genre)
+        {
+            var res = _mapper.Map<List<FilmDTO>>(_repository.GetFilmsGenre(genre).ToList());
+            return res;
+        }
+
+        // Создание/редактирование фильма
+        [HttpPost("{Id?}")]
+        public FilmDTO PostFilm(int? Id, [FromBody] FilmDTO _film)
+        {
+            if (Id == 0)
+            {
+                _repository.AddFilm(_film);
+                return _film;
+            }
+            _repository.EditFilm(Id, _film);
+            return _film;
+        }
+        
+        //Удаление фильма по Id
+        [HttpDelete("{Id?}")]
+        public void Delete(int? Id)
+        {
+            _repository.DeleteFilm(Id);
+        }
+    }
+}
