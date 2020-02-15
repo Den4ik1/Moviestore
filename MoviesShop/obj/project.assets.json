@@ -4710,7 +4710,7 @@
   },
   "libraries": {
     "AutoMapper/9.0.0": {
-      "sha512": "xCqvoxT4HIrNY/xlXG9W+BA/awdrhWvMTKTK/igkGSRbhOhpl3Q8O8Gxlhzjc9JsYqE7sS6AxgyuUUvZ6R5/Bw==",
+      "sha512": "xT8V1cEHum51ZKXWeSlS2rT8fCHmLWpBPC+ZTJjQ9CO9j1pB7ZUz+MjNx9PIPQwXLFrkANXvWyg2eKR3x8qvSg==",
       "type": "package",
       "path": "automapper/9.0.0",
       "files": [
@@ -4727,7 +4727,7 @@
       ]
     },
     "AutoMapper.Extensions.Microsoft.DependencyInjection/7.0.0": {
-      "sha512": "szI4yeRIM7GWe9JyekW0dKYehPB0t6M+I55fPeCebN6PhS7zQZa0eG3bgOnOx+eP3caSNoE7KEJs2rk7MLsh8w==",
+      "sha512": "prXKbljp+ubYf3jAcgHJytxlZUPsj/kjTyXSTaS/9U/coUzLIun8N+UpHFrY3g2d7pp0PzIlWY60m+zRq1vrZQ==",
       "type": "package",
       "path": "automapper.extensions.microsoft.dependencyinjection/7.0.0",
       "files": [
@@ -8951,7 +8951,7 @@
       ]
     },
     "System.Diagnostics.DiagnosticSource/4.5.1": {
-      "sha512": "zCno/m44ymWhgLFh7tELDG9587q0l/EynPM0m4KgLaWQbz/TEKvNRX2YT5ip2qXW/uayifQ2ZqbnErsKJ4lYrQ==",
+      "sha512": "/tu8MfTToEdI+I0L10NkGXqGuLDIvmkWqjnaSit3o8i5SZz8A0kz9YLxfZltFKbxmsOpYqnyoysPvPlQMZVwxg==",
       "type": "package",
       "path": "system.diagnostics.diagnosticsource/4.5.1",
       "files": [
@@ -12760,23 +12760,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dziadovich\\.nuget\\packages\\": {},
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dziadovich\\source\\repos\\Ex_2\\Ex_2_1\\MoviesShop\\MoviesShop.csproj",
+      "projectUniqueName": "D:\\Study\\C#\\MoviesShop\\MoviesShop\\MoviesShop.csproj",
       "projectName": "MoviesShop",
-      "projectPath": "C:\\Users\\dziadovich\\source\\repos\\Ex_2\\Ex_2_1\\MoviesShop\\MoviesShop.csproj",
-      "packagesPath": "C:\\Users\\dziadovich\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dziadovich\\source\\repos\\Ex_2\\Ex_2_1\\MoviesShop\\obj\\",
+      "projectPath": "D:\\Study\\C#\\MoviesShop\\MoviesShop\\MoviesShop.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "D:\\Study\\C#\\MoviesShop\\MoviesShop\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\dziadovich\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12826,6 +12826,7 @@
             "version": "[2.1.8, )"
           },
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
