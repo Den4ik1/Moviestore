@@ -12,28 +12,40 @@ export class ActorEdit extends Component {
             name: '',
             birthDay: '',
             countryDTO: '',
+            //фильмы актёра
             films: [],
+            //веданные актёра
             forecasts: [],
-
+            //индексы для поиска
             indexDelete: '',
             indexFinde: '',
             indexTitle: '',
-
+            //флаг для редактирования
             flag: false,
-
-            title: '',
-            filmItem: '',
+            //модель фильма
+            filmId: '',
+            filmTitle: '',
+            filmItem:'',
+            //полный список фильмов
             fullListFilms: [],
+            //новый набор фильмов
+            newListFilm: [],
         };
-
-            this.onChange = this.onChange.bind(this),
+            //изменение полей заполнения
+        this.onChange = this.onChange.bind(this);
+        this.onChangeArea = this.onChangeArea.bind(this);
+            //методы поиска
             this.submitFind = this.submitFind.bind(this),
             this.submitFindeTitle = this.submitFindeTitle.bind(this),
             this.submitDelete = this.submitDelete.bind(this),
+            //методы работы с данными
+
             this.submitEdit = this.submitEdit.bind(this),
-            this.clearForm = this.clearForm.bind(this),
-            
             this.addFilm = this.addFilm.bind(this);
+
+            //очистка формы 
+            this.clearForm = this.clearForm.bind(this),
+
 
         fetch('api/Actors')
             .then(response => response.json())
@@ -46,7 +58,15 @@ export class ActorEdit extends Component {
             .then(data => {
                 this.setState({ fullListFilms: data });
             });
+    }
 
+
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    onChangeArea = e => {
+        this.setState({ [e.target.name]: e.target.value.split("\n") })
     }
 
     //////////////////////Method for Panel
@@ -95,6 +115,18 @@ export class ActorEdit extends Component {
         })
     }
 
+    addFilm(film) {
+
+        const selectedData = this.state.fullListFilms.find(x => x.filmId == film);
+        this.setState({
+            films: [...this.state.films, selectedData.filmTitle],
+            newListFilms: [
+                ...this.state.newListFilms,
+                { Idf: selectedData.filmId, filmTitle: selectedData.filmTitle }
+            ]
+        });
+    }
+
     clearForm() {
         this.setState({
             id: 0,
@@ -106,21 +138,6 @@ export class ActorEdit extends Component {
         })
     }
 
-    onChange = e => {
-        this.setState({ [e.target.name]: e.target.value })
-    }
-
-    onChangeArea = e => {
-        this.setState({ [e.target.name]: e.target.value.split("\n") })
-    }
-
-    addFilm(film) {
-        this.setState({
-            films:
-                [...this.state.films, film]
-        });
-    }
-
     render() {
         return (<div className="content">
                 <table>
@@ -129,8 +146,11 @@ export class ActorEdit extends Component {
                             <ActorForm 
                                 forecasts={this.state.forecasts}
                                 fullListFilms={this.state.fullListFilms}
+
+                                filmTitle={this.state.filmTitle}
+                                filmId={this.state.filmId}
+                            newListFilm={this.state.newListFilm}
                                 filmItem={this.state.filmItem}
-                                title={this.state.title}
 
                                 id={this.state.id}
                                 name={this.state.name}

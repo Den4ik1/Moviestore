@@ -70,52 +70,56 @@ namespace MoviesShop.Repository
         //Добавление в промежуточную  таблицу обоих Id
         public void EditActor(int? id, ActorDTO _actor)
         {
-            ICollection<TitleDTO> filmList;
-            try
-            {
-               filmList = _actor.Films;
-            }
-            catch
-            {
-                filmList = null;
-            }
-            if (!_context.Actor.Any(x => x.Name == _actor.Name))
-            {
-                var newActor = new Actor()
-                {
-                    Name = _actor.Name,
-                    BirthDay = _actor.BirthDay,
-                };
 
-                newActor.Country = _testConunty(_actor.CountryDTO.Title);
 
-                _context.Actor.Add(newActor);
-            }
-            else
-            {
-                var EditActor = _context.Actor.First(x => x.Id == id);
-                EditActor.Name = _actor.Name;
-                EditActor.BirthDay = _actor.BirthDay;
-                EditActor.Country = _testConunty(_actor.CountryDTO.Title);
-            }
-            _context.SaveChanges();
 
-            //добавление фильмов в которых актёр играл
-            int IdActor =  _context.Actor.FirstOrDefault(x => x.Name == _actor.Name).Id;
-            foreach (var item in filmList)
-            {
-                FilmActor fa = new FilmActor() { ActorId = IdActor };
-                if (!_context.Film.Any(x => x.Title == item.Title))
-                {
-                    _context.Film.Add(new Film() { Title = item.Title, Countrys = new Countrys()});
-                    _context.SaveChanges();
-                    fa.FilmId = _context.Film.First(x => x.Title == item.Title).Id;
-                }
-                fa.FilmId = _context.Film.First(x => x.Title == item.Title).Id;
-                _context.FilmActor.Add(fa);
-                _context.SaveChanges();
-            }
+            #region
+            //ICollection<TitleDTO> filmList;
+            //try
+            //{
+            //   //filmList = _actor.Films;
+            //}
+            //catch
+            //{
+            //    filmList = null;
+            //}
+            //if (!_context.Actor.Any(x => x.Name == _actor.Name))
+            //{
+            //    var newActor = new Actor()
+            //    {
+            //        Name = _actor.Name,
+            //        BirthDay = _actor.BirthDay,
+            //    };
 
+            //    newActor.Country = _testConunty(_actor.CountryDTO.Title);
+
+            //    _context.Actor.Add(newActor);
+            //}
+            //else
+            //{
+            //    var EditActor = _context.Actor.First(x => x.Id == id);
+            //    EditActor.Name = _actor.Name;
+            //    EditActor.BirthDay = _actor.BirthDay;
+            //    EditActor.Country = _testConunty(_actor.CountryDTO.Title);
+            //}
+            //_context.SaveChanges();
+
+            ////добавление фильмов в которых актёр играл
+            //int IdActor =  _context.Actor.FirstOrDefault(x => x.Name == _actor.Name).Id;
+            ////foreach (var item in filmList)
+            //{
+            //    FilmActor fa = new FilmActor() { ActorId = IdActor };
+            //    if (!_context.Film.Any(x => x.Title == item.Title))
+            //    {
+            //        _context.Film.Add(new Film() { Title = item.Title, Countrys = new Countrys()});
+            //        _context.SaveChanges();
+            //        fa.FilmId = _context.Film.First(x => x.Title == item.Title).Id;
+            //    }
+            //    fa.FilmId = _context.Film.First(x => x.Title == item.Title).Id;
+            //    _context.FilmActor.Add(fa);
+            //    _context.SaveChanges();
+            //}
+            #endregion
         }
 
         //Добавление актёра

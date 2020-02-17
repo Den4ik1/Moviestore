@@ -46,17 +46,18 @@ const ActorForm = props => {
 
                             <Label for="country">Country:</Label>
                             <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                             <Label for="Films">Films:</Label>
-                            <textarea name="films" onChange={props.onChangeArea} value={props.films.map(r => r).join("\n")} class="areaSize" />
+                    <textarea name="newListFilm" onChange={props.onChangeArea} value={props.newListFilm.map(r => r).join("\n")} class="areaSize" />
                         </div>
 
                         <div class="boxForTaxtBox">
                             <h3> <b>Add films for actor</b></h3>
                             <select name="filmItem" size="6" onChange={e => props.onChange(e)} >
-                                {props.fullListFilms.map(film => (
-                                    <option key={film.title} value={film.title}>
-                                        {film.title}
+                        {props.fullListFilms.map(film => (
+                            <option key={film.filmTitle} value={film.filmId}>
+                                {film.filmTitle}
                                     </option>
                                 ))}
                             </select>

@@ -26,3 +26,17 @@ D:\Study\C#\MoviesShop\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.AssemblyInf
 D:\Study\C#\MoviesShop\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.RazorTargetAssemblyInfo.cache
 D:\Study\C#\MoviesShop\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.dll
 D:\Study\C#\MoviesShop\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.pdb
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\bin\Debug\netcoreapp2.1\MoviesShop.deps.json
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\bin\Debug\netcoreapp2.1\MoviesShop.runtimeconfig.json
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\bin\Debug\netcoreapp2.1\MoviesShop.runtimeconfig.dev.json
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\bin\Debug\netcoreapp2.1\MoviesShop.dll
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\bin\Debug\netcoreapp2.1\MoviesShop.pdb
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.csprojAssemblyReference.cache
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.csproj.CoreCompileInputs.cache
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.RazorAssemblyInfo.cache
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.RazorAssemblyInfo.cs
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.AssemblyInfoInputs.cache
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.AssemblyInfo.cs
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.RazorTargetAssemblyInfo.cache
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.dll
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.pdb
