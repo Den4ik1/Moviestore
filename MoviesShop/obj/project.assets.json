@@ -12766,11 +12766,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dziadovich\\source\\repos\\Ex_2\\Ex_2_1\\MoviesShop\\MoviesShop.csproj",
+      "projectUniqueName": "C:\\Users\\dziadovich\\source\\repos\\Moviestore\\MoviesShop\\MoviesShop.csproj",
       "projectName": "MoviesShop",
-      "projectPath": "C:\\Users\\dziadovich\\source\\repos\\Ex_2\\Ex_2_1\\MoviesShop\\MoviesShop.csproj",
+      "projectPath": "C:\\Users\\dziadovich\\source\\repos\\Moviestore\\MoviesShop\\MoviesShop.csproj",
       "packagesPath": "C:\\Users\\dziadovich\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dziadovich\\source\\repos\\Ex_2\\Ex_2_1\\MoviesShop\\obj\\",
+      "outputPath": "C:\\Users\\dziadovich\\source\\repos\\Moviestore\\MoviesShop\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
