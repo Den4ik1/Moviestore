@@ -49,14 +49,14 @@ const ActorForm = props => {
                     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                             <Label for="Films">Films:</Label>
-                    <textarea name="newListFilm" onChange={props.onChangeArea} value={props.newListFilm.map(r => r).join("\n")} class="areaSize" />
+                    <textarea name="newListFilm" onChange={props.onChangeArea} value={props.films.map(r => r).join("\n")} class="areaSize" />
                         </div>
 
                         <div class="boxForTaxtBox">
                             <h3> <b>Add films for actor</b></h3>
                             <select name="filmItem" size="6" onChange={e => props.onChange(e)} >
                         {props.fullListFilms.map(film => (
-                            <option key={film.title} value={film.Id}>
+                            <option key={film.title} value={film.id}>
                                 {film.title}
                                     </option>
                                 ))}

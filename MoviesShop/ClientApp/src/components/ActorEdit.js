@@ -23,13 +23,12 @@ export class ActorEdit extends Component {
             //флаг для редактирования
             flag: false,
             //модель фильма
-            filmId: '',
-            filmTitle: '',
+            title: '',
             filmItem:'',
             //полный список фильмов
             fullListFilms: [],
             //новый набор фильмов
-            newListFilm: [],
+            newListFilms: [],
         };
             //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
@@ -115,14 +114,15 @@ export class ActorEdit extends Component {
         })
     }
 
-    addFilm(fil) {
-        console.log(fil);
-        const selectedData = this.state.fullListFilms.find(x => x.id == fil);
+    addFilm(film) {
+
+        const selectedData = this.state.fullListFilms.find(x => x.id == film);
+        console.log(selectedData);
         this.setState({
             films: [...this.state.films, selectedData.title],
             newListFilms: [
                 ...this.state.newListFilms,
-                { id: selectedData.id, filmTitle: selectedData.title }
+                { filmId: selectedData.id, filmTitle: selectedData.title }
             ]
         });
     }
@@ -147,19 +147,21 @@ export class ActorEdit extends Component {
                                 forecasts={this.state.forecasts}
                                 fullListFilms={this.state.fullListFilms}
 
-                                filmTitle={this.state.filmTitle}
+                                
                                 filmId={this.state.filmId}
-                            newListFilm={this.state.newListFilm}
-                                filmItem={this.state.filmItem}
 
                                 id={this.state.id}
                                 name={this.state.name}
                                 birthDay={this.state.birthDay}
                                 countryDTO={this.state.countryDTO}
-                                films={this.state.films}
                                 flag={this.state.flag}
+                                title={this.state.title}
 
-                                addFilm={this.addFilm}
+                            newListFilm={this.state.newListFilm}
+                            filmItem={this.state.filmItem}
+
+                            films={this.state.films}
+                            addFilm={this.addFilm}
 
                                 clearForm={this.clearForm}
                                 onChange={this.onChange}
