@@ -4,19 +4,25 @@ import '../app.css';
 
 //////////////////////////////////////  1900/01/01
 const saveSubmitEdit = (e) => {
-        alert("Actor changed"),
+    {
+        e.newListFilms.map(x => (
+            console.log(x.filmId )));
+    };
+
+
+    alert("Actor changed"),
         fetch(`api/Actors?Id=${encodeURIComponent(e.id)}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            name: e.name,
-            birthDay: e.birthDay,
-            countryDTO: {
-                title: e.countryDTO,
-            },
-            films: e.films.map(function (item) { return { title: item } })
+            body: JSON.stringify({
+                name: e.name,
+                birthDay: e.birthDay,
+                countryDTO: {
+                    title: e.countryDTO,
+                },
+                films: e.newListFilms.map(function (x) { return { id: x.filmId, title: x.filmTitle} }),
         })
     })
     e.clearForm()
@@ -46,14 +52,15 @@ const ActorForm = props => {
 
                             <Label for="country">Country:</Label>
                             <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                             <Label for="Films">Films:</Label>
-                    <textarea name="newListFilm" onChange={props.onChangeArea} value={props.films.map(r => r).join("\n")} class="areaSize" />
+                            <textarea name="newListFilm" onChange={props.onChangeArea} value={props.films.map(r => r).join("\n")} class="areaSize" />
                         </div>
 
                         <div class="boxForTaxtBox">
+
                             <h3> <b>Add films for actor</b></h3>
+
                             <select name="filmItem" size="6" onChange={e => props.onChange(e)} >
                         {props.fullListFilms.map(film => (
                             <option key={film.title} value={film.id}>
@@ -61,12 +68,14 @@ const ActorForm = props => {
                                     </option>
                                 ))}
                             </select>
+
+
                             <button
                                 className="editButton"
                                 onClick={() => props.addFilm(props.filmItem)}
                             >
                                 Film
-                                    </button>
+                            </button>
                             </div>
                 
                        

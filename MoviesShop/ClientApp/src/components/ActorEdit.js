@@ -157,16 +157,17 @@ export class ActorEdit extends Component {
                                 flag={this.state.flag}
                                 title={this.state.title}
 
-                            newListFilm={this.state.newListFilm}
-                            filmItem={this.state.filmItem}
+                                newListFilms={this.state.newListFilms}
+                                filmItem={this.state.filmItem}
 
-                            films={this.state.films}
-                            addFilm={this.addFilm}
+                                films={this.state.films}
+                                addFilm={this.addFilm}
 
                                 clearForm={this.clearForm}
                                 onChange={this.onChange}
                                 onChangeArea={this.onChangeArea}
-                            />
+                        />
+
 
                             <FindPanel
                                 onChange={this.onChange}
@@ -188,7 +189,7 @@ export class ActorEdit extends Component {
                     </tr>
                 </table>
                 <div class="AddDownToMain" />
-            </div>
+        </div>
         );
     }
 }
