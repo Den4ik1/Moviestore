@@ -56,8 +56,8 @@ const ActorForm = props => {
                             <h3> <b>Add films for actor</b></h3>
                             <select name="filmItem" size="6" onChange={e => props.onChange(e)} >
                         {props.fullListFilms.map(film => (
-                            <option key={film.filmTitle} value={film.filmId}>
-                                {film.filmTitle}
+                            <option key={film.title} value={film.Id}>
+                                {film.title}
                                     </option>
                                 ))}
                             </select>

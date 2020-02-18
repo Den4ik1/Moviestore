@@ -115,14 +115,14 @@ export class ActorEdit extends Component {
         })
     }
 
-    addFilm(film) {
-
-        const selectedData = this.state.fullListFilms.find(x => x.filmId == film);
+    addFilm(fil) {
+        console.log(fil);
+        const selectedData = this.state.fullListFilms.find(x => x.id == fil);
         this.setState({
-            films: [...this.state.films, selectedData.filmTitle],
+            films: [...this.state.films, selectedData.title],
             newListFilms: [
                 ...this.state.newListFilms,
-                { Idf: selectedData.filmId, filmTitle: selectedData.filmTitle }
+                { id: selectedData.id, filmTitle: selectedData.title }
             ]
         });
     }
