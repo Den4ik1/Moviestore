@@ -109,7 +109,7 @@ export class ActorEdit extends Component {
             name: forecast.name,
             birthDay: forecast.birthDay,
             countryDTO: forecast.countryDTO.title,
-            films: forecast.films.map(item => item.title),
+            filmsDTO: forecast.filmsDTO.map(item => item.title),
             flag: true,
         })
     }
@@ -122,7 +122,7 @@ export class ActorEdit extends Component {
             films: [...this.state.films, selectedData.title],
             newListFilms: [
                 ...this.state.newListFilms,
-                { filmId: selectedData.id, filmTitle: selectedData.title }
+                { filmId: selectedData.id}
             ]
         });
     }

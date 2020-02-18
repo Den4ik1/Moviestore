@@ -11,11 +11,13 @@ namespace MoviesShop.DTO
 
         public DateTime? BirthDay { get; set; }
         public TitleDTO CountryDTO { get; set; }
-        public ICollection<TitleDTO> Films { get; set; }
+        public ICollection<FilmActorDTO> FilmsActorDTO { get; set; }
+        public ICollection<TitleDTO> FilmsDTO { get; set; }
 
         public ActorDTO()
         {
-            Films = new List<TitleDTO>();
+            FilmsActorDTO = new List<FilmActorDTO>();
+            FilmsDTO = new List<TitleDTO>();
         }
     }
 }

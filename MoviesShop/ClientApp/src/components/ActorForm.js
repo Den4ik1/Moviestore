@@ -22,7 +22,7 @@ const saveSubmitEdit = (e) => {
                 countryDTO: {
                     title: e.countryDTO,
                 },
-                films: e.newListFilms.map(function (x) { return { id: x.filmId, title: x.filmTitle} }),
+                filmsActorDTO: e.newListFilms.map(function (x) { return { filmId: x.filmId, ActorId: e.id} }),
         })
     })
     e.clearForm()
@@ -40,7 +40,7 @@ const ActorForm = props => {
                                     <Label for="id">Id:</Label><p />
                                     <input type="text" name="id" value={props.id} />  <p />
                                 </div>
-                            ) : (
+                                ) : (
                                 <div />
                                 )}
 

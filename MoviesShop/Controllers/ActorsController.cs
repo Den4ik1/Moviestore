@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using MoviesShop.DTO;
+using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {
@@ -26,22 +27,29 @@ namespace MoviesShop.Controllers
 
             if (Id.HasValue)
             {
-                return _mapper.Map<List<ActorDTO>>(new List<Actor>() { _repository.GetId(Id) });
+               // return _repository.GetId(Id). (x => x.ConvertToActorDTO()).ToList();
             }
-            return _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
+            //return null;
+            return _repository.GetFullActor().Select(x => x.ConvertToActorDTO()).ToList();
+            //return _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
         }
 
         // Создание/редактирование актёра
         [HttpPost("{Id?}")]
         public ActorDTO PostActor(int? Id, [FromBody] ActorDTO _actor)
         {
+            var r = _repository.GetFullActor().ToList();
+
             if (Id == 0)
             {
                 _repository.AddActor(_actor);
                 return _actor;
             }
-            _repository.EditActor(Id,  _actor);
-            return _actor;
+            _repository.EditActor(Id, _actor);
+
+            ActorDTO res = new ActorDTO();
+                r.Select(x => x.ConvertToActorDTO());
+            return null;
            // return new ActorDTO();
         }
 
