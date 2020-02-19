@@ -24,7 +24,5 @@ namespace MoviesShop.Models
             FilmGenre = new List<FilmGenre>();
             FilmActor = new List<FilmActor>();
         }
-
-       
     }
 }

@@ -23,7 +23,7 @@ const FilmsList = (props) => {
                          <td>{forecast.year}</td>
                          <td>{forecast.countryDTO.title}</td>
                          <td>{forecast.actorDTO.map(forc =>
-                             <tr>{forc.name}</tr>
+                             <tr>{forc.title}</tr>
                          )}</td>
                          <td>{forecast.genreDTO.map(forc =>
                              <tr>{forc.title}</tr>
