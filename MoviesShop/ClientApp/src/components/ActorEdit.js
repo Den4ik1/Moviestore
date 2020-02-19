@@ -13,7 +13,7 @@ export class ActorEdit extends Component {
             birthDay: '',
             countryDTO: '',
             //фильмы актёра
-            filmsDTO: [],
+            films: [],
             //веданные актёра
             forecasts: [],
             //индексы для поиска
@@ -30,20 +30,20 @@ export class ActorEdit extends Component {
             //новый набор фильмов
             newListFilms: [],
         };
-        //изменение полей заполнения
+            //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
         this.onChangeArea = this.onChangeArea.bind(this);
-        //методы поиска
-        this.submitFind = this.submitFind.bind(this),
-        this.submitFindeTitle = this.submitFindeTitle.bind(this),
-        this.submitDelete = this.submitDelete.bind(this),
-        //методы работы с данными
+            //методы поиска
+            this.submitFind = this.submitFind.bind(this),
+            this.submitFindeTitle = this.submitFindeTitle.bind(this),
+            this.submitDelete = this.submitDelete.bind(this),
+            //методы работы с данными
 
-        this.submitEdit = this.submitEdit.bind(this),
-        this.addFilm = this.addFilm.bind(this);
+            this.submitEdit = this.submitEdit.bind(this),
+            this.addFilm = this.addFilm.bind(this);
 
-        //очистка формы 
-        this.clearForm = this.clearForm.bind(this),
+            //очистка формы 
+            this.clearForm = this.clearForm.bind(this),
 
 
         fetch('api/Actors')
@@ -68,7 +68,7 @@ export class ActorEdit extends Component {
         this.setState({ [e.target.name]: e.target.value.split("\n") })
     }
 
-    //////////////////////Методы для понели поиска
+    //////////////////////Method for Panel
     submitFind = id => {
         fetch(`api/Actors?Id=${encodeURIComponent(id)}`, {
             method: 'Get',
@@ -102,7 +102,7 @@ export class ActorEdit extends Component {
         }
     }
 
-    ///////////////////////Методы лоя вырмы редактирования
+    ///////////////////////Method for Edit Form
     submitEdit(forecast) {
         this.setState({
             id: forecast.id,
@@ -119,7 +119,7 @@ export class ActorEdit extends Component {
         const selectedData = this.state.fullListFilms.find(x => x.id == film);
         console.log(selectedData);
         this.setState({
-            filmsDTO: [...this.state.filmsDTO, selectedData.title],
+            films: [...this.state.films, selectedData.title],
             newListFilms: [
                 ...this.state.newListFilms,
                 { filmId: selectedData.id}
@@ -133,7 +133,7 @@ export class ActorEdit extends Component {
             name: '',
             birthDay: '',
             countryDTO: '',
-            filmsDTO: [],
+            films: [],
             flag: false,
         })
     }
@@ -160,7 +160,7 @@ export class ActorEdit extends Component {
                                 newListFilms={this.state.newListFilms}
                                 filmItem={this.state.filmItem}
 
-                                filmsDTO={this.state.filmsDTO}
+                                films={this.state.films}
                                 addFilm={this.addFilm}
 
                                 clearForm={this.clearForm}

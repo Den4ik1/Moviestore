@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using MoviesShop.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using MoviesShop.Models;
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +10,16 @@ namespace MoviesShop.Controllers
     public class GenreController
     {
         private readonly GenreRepository _repository;
-        private readonly IMapper _mapper;
-        public GenreController(GenreRepository repository, IMapper mapper)
+
+        public GenreController(GenreRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
         [HttpGet]
-        public List<TitleDTO> GetListGenre()
+        public List<Genre> GetListGenre()
         {
-            var res = _repository.GetGenres().ToList();
-            return _mapper.Map<List<TitleDTO>>(res);
+            return _repository.GetGenres().ToList();
         }
     }
 }

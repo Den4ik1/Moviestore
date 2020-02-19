@@ -141,7 +141,7 @@ export class FilmsEdit extends React.Component {
             year: forecast.year,
             countryDTO: forecast.countryDTO.title,
             genreDTO: forecast.genreDTO.map(item => item.title),
-            actorDTO: forecast.actorDTO.map(item => item.title),
+            actorDTO: forecast.actorDTO.map(item => item.name),
             flag: true,
         })
     }

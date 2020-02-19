@@ -135,7 +135,7 @@ export class Films extends Component {
                                     {forecast.genreDTO.map(forc => <div class="contentList">{forc.title}.&nbsp; </div>)}
                                     </div>
                                     <div class="contentText">Actors:&nbsp;
-                                    {forecast.actorDTO.map(act => <div class="contentList">{act.title}.&nbsp; </div>)}
+                                    {forecast.actorDTO.map(act => <div class="contentList">{act.name}.&nbsp; </div>)}
                                     </div>
                                     <div className="box">
                                         <button class="editButton"  >
