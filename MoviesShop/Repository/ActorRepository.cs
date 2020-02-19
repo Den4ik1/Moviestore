@@ -42,33 +42,10 @@ namespace MoviesShop.Repository
             return new Actor();
         }
 
-        /////////////////////////////////////////////////////////////////////////////
-        /*тут всё ок) Работает. Проблема с переводом DTOModel к BaseModel */
-        #region
-        /////////////////////////////////////////////////////////////////////////////
-        //public void AddActor(int? id, Actor _actor)                              //
-        //{                                                                        //
-        //    var temp = _context.Actor.FirstOrDefault(x => x.Id == id);           //
-        //    if (temp != null)                                                    //
-        //    {                                                                    //
-        //        temp.Name = _actor.Name;                                         //
-        //        temp.BirthDay = _actor.BirthDay;                                 //
-        //        temp.Country = _actor.Country;                                   //
-        //    }                                                                    //
-        //    else                                                                 //
-        //    {                                                                    //
-        //        _context.Actor.Add(_actor);                                      //
-        //    }                                                                    //
-        //    _context.SaveChanges();                                              //
-        // }                                                                       //
-        //                                                                         //
-        /////////////////////////////////////////////////////////////////////////////
-        #endregion
-                       
         //Редактирование актёра
-        //Вывод его Id
-        //Поиск Id фильма (если не, то создать новый)
-        //Добавление в промежуточную  таблицу обоих Id
+        //Изменение личных данных актёра (кроме фильмов в которых он снимался)
+        //Проверка на дублекаты в фильмах, по промежуточной таблице.
+        //Добавление новых записей в связную таблицу
         public void EditActor(int? id, ActorDTO _actor)
         {
             int ids = (int)id;

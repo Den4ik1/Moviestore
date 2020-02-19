@@ -29,9 +29,9 @@ namespace MoviesShop.Controllers
             {
                // return _repository.GetId(Id). (x => x.ConvertToActorDTO()).ToList();
             }
-            //return null;
-            return _repository.GetFullActor().Select(x => x.ConvertToActorDTO()).ToList();
-            //return _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
+            //var res = _repository.GetFullActor().Select(x => x.ConvertToActorDTO()).ToList();
+            var res = _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
+            return res;
         }
 
         // Создание/редактирование актёра
@@ -46,11 +46,7 @@ namespace MoviesShop.Controllers
                 return _actor;
             }
             _repository.EditActor(Id, _actor);
-
-            ActorDTO res = new ActorDTO();
-                r.Select(x => x.ConvertToActorDTO());
             return null;
-           // return new ActorDTO();
         }
 
         //Поиск по названию
