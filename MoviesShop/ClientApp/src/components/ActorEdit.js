@@ -13,7 +13,7 @@ export class ActorEdit extends Component {
             birthDay: '',
             countryDTO: '',
             //фильмы актёра
-            films: [],
+            filmsDTO: [],
             //веданные актёра
             forecasts: [],
             //индексы для поиска
@@ -24,17 +24,17 @@ export class ActorEdit extends Component {
             flag: false,
             //модель фильма
             title: '',
-            filmItem:'',
+            filmItem: '',
             //полный список фильмов
             fullListFilms: [],
             //новый набор фильмов
             newListFilms: [],
         };
-            //изменение полей заполнения
+        //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
         this.onChangeArea = this.onChangeArea.bind(this);
-            //методы поиска
-            this.submitFind = this.submitFind.bind(this),
+        //методы поиска
+        this.submitFind = this.submitFind.bind(this),
             this.submitFindeTitle = this.submitFindeTitle.bind(this),
             this.submitDelete = this.submitDelete.bind(this),
             //методы работы с данными
@@ -42,16 +42,16 @@ export class ActorEdit extends Component {
             this.submitEdit = this.submitEdit.bind(this),
             this.addFilm = this.addFilm.bind(this);
 
-            //очистка формы 
-            this.clearForm = this.clearForm.bind(this),
+        //очистка формы 
+        this.clearForm = this.clearForm.bind(this),
 
 
-        fetch('api/Actors')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ forecasts: data });
-            });
-        
+            fetch('api/Actors')
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({ forecasts: data });
+                });
+
         fetch('api/Film')
             .then(response => response.json())
             .then(data => {
@@ -68,7 +68,7 @@ export class ActorEdit extends Component {
         this.setState({ [e.target.name]: e.target.value.split("\n") })
     }
 
-    //////////////////////Method for Panel
+    //////////////////////Методы для понели поиска
     submitFind = id => {
         fetch(`api/Actors?Id=${encodeURIComponent(id)}`, {
             method: 'Get',
@@ -102,7 +102,7 @@ export class ActorEdit extends Component {
         }
     }
 
-    ///////////////////////Method for Edit Form
+    ///////////////////////Методы лоя вырмы редактирования
     submitEdit(forecast) {
         this.setState({
             id: forecast.id,
@@ -119,10 +119,10 @@ export class ActorEdit extends Component {
         const selectedData = this.state.fullListFilms.find(x => x.id == film);
         console.log(selectedData);
         this.setState({
-            films: [...this.state.films, selectedData.title],
+            filmsDTO: [...this.state.filmsDTO, selectedData.title],
             newListFilms: [
                 ...this.state.newListFilms,
-                { filmId: selectedData.id}
+                { filmId: selectedData.id }
             ]
         });
     }
@@ -133,62 +133,62 @@ export class ActorEdit extends Component {
             name: '',
             birthDay: '',
             countryDTO: '',
-            films: [],
+            filmsDTO: [],
             flag: false,
         })
     }
 
     render() {
         return (<div className="content">
-                <table>
-                    <tr>
-                        <td>
-                            <ActorForm 
-                                forecasts={this.state.forecasts}
-                                fullListFilms={this.state.fullListFilms}
+            <table>
+                <tr>
+                    <td>
+                        <ActorForm
+                            forecasts={this.state.forecasts}
+                            fullListFilms={this.state.fullListFilms}
 
-                                
-                                filmId={this.state.filmId}
 
-                                id={this.state.id}
-                                name={this.state.name}
-                                birthDay={this.state.birthDay}
-                                countryDTO={this.state.countryDTO}
-                                flag={this.state.flag}
-                                title={this.state.title}
+                            filmId={this.state.filmId}
 
-                                newListFilms={this.state.newListFilms}
-                                filmItem={this.state.filmItem}
+                            id={this.state.id}
+                            name={this.state.name}
+                            birthDay={this.state.birthDay}
+                            countryDTO={this.state.countryDTO}
+                            flag={this.state.flag}
+                            title={this.state.title}
 
-                                films={this.state.films}
-                                addFilm={this.addFilm}
+                            newListFilms={this.state.newListFilms}
+                            filmItem={this.state.filmItem}
 
-                                clearForm={this.clearForm}
-                                onChange={this.onChange}
-                                onChangeArea={this.onChangeArea}
+                            filmsDTO={this.state.filmsDTO}
+                            addFilm={this.addFilm}
+
+                            clearForm={this.clearForm}
+                            onChange={this.onChange}
+                            onChangeArea={this.onChangeArea}
                         />
 
 
-                            <FindPanel
-                                onChange={this.onChange}
-                                submitFindeTitle={this.submitFindeTitle}
-                                submitFind={this.submitFind}
-                                submitDelete={this.submitDelete}
+                        <FindPanel
+                            onChange={this.onChange}
+                            submitFindeTitle={this.submitFindeTitle}
+                            submitFind={this.submitFind}
+                            submitDelete={this.submitDelete}
 
-                                indexDelete={this.state.indexDelete}
-                                indexFinde={this.state.indexFinde}
-                                indexTitle={this.state.indexTitle}
-                            />
+                            indexDelete={this.state.indexDelete}
+                            indexFinde={this.state.indexFinde}
+                            indexTitle={this.state.indexTitle}
+                        />
 
-                            <ActorList
-                                forecasts={this.state.forecasts}
-                                submitDelete={this.submitDelete}
-                                submitEdit={this.submitEdit}
-                            />
-                        </td>
-                    </tr>
-                </table>
-                <div class="AddDownToMain" />
+                        <ActorList
+                            forecasts={this.state.forecasts}
+                            submitDelete={this.submitDelete}
+                            submitEdit={this.submitEdit}
+                        />
+                    </td>
+                </tr>
+            </table>
+            <div class="AddDownToMain" />
         </div>
         );
     }

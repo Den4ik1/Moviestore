@@ -5,6 +5,7 @@ using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {
@@ -25,10 +26,13 @@ namespace MoviesShop.Controllers
         {
             if (Id.HasValue)
             {
-                return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id)});
+                return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id) });
             }
-            var r = _mapper.Map<List<FilmDTO>>(_repository.GetFilms().ToList());
-            return r;
+            //List<FilmDTO> r = new List<FilmDTO>();
+            //r =_repository.GetFilms().ToList().ConvertToFilmDTO();
+
+
+            return _mapper.Map<List<FilmDTO>>(_repository.GetFilms());
 
         }
 
@@ -60,7 +64,7 @@ namespace MoviesShop.Controllers
             _repository.EditFilm(Id, _film);
             return _film;
         }
-        
+
         //Удаление фильма по Id
         [HttpDelete("{Id?}")]
         public void Delete(int? Id)

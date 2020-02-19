@@ -1,5 +1,4 @@
 ﻿using MoviesShop.Data;
-using System;
 using System.Collections.Generic;
 
 namespace MoviesShop.Models

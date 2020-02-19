@@ -1,9 +1,9 @@
 ﻿namespace MoviesShop.DTO
 {
-    public class FilmActorDTO
+    public class FilmItemDTO
     {
         public int Id { get; set; }
-        public int ActorId { get; set; }
+        public int ItemId { get; set; }
         public int FilmId { get; set; }
     }
 }

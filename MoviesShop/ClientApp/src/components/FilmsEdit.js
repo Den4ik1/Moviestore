@@ -2,7 +2,7 @@
 import '../app.css';
 import FindPanel from './FindPanel';
 import FilmsList from './FilmsList';
-import FilmsForm  from './FilmsForm';
+import FilmsForm from './FilmsForm';
 
 ///////////////////////////////////////////////////////////////////
 export class FilmsEdit extends React.Component {
@@ -34,7 +34,7 @@ export class FilmsEdit extends React.Component {
             actorList: [],
         };
 
-            this.noChangeArea = this.onChangeArea.bind(this),
+        this.noChangeArea = this.onChangeArea.bind(this),
             this.noChange = this.onChange.bind(this),
             this.submitFind = this.submitFind.bind(this),
             this.submitFindeTitle = this.submitFindeTitle.bind(this),
@@ -44,8 +44,8 @@ export class FilmsEdit extends React.Component {
 
             this.addActor = this.addActor.bind(this),
             this.addGenre = this.addGenre.bind(this),
-            
-        fetch('api/Film')
+
+            fetch('api/Film')
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ forecasts: data });
@@ -116,7 +116,7 @@ export class FilmsEdit extends React.Component {
     //                title: this.state.countryDTO
     //            },
     //        })
-            
+
     //    })
     //        .then(() => {
     //            this.props.toggle();
@@ -141,13 +141,12 @@ export class FilmsEdit extends React.Component {
             year: forecast.year,
             countryDTO: forecast.countryDTO.title,
             genreDTO: forecast.genreDTO.map(item => item.title),
-            actorDTO: forecast.actorDTO.map(item => item.name),
+            actorDTO: forecast.actorDTO.map(item => item.title),
             flag: true,
         })
     }
 
-    clearForm()
-    {
+    clearForm() {
         this.setState({
             id: 0,
             title: '',
@@ -184,7 +183,7 @@ export class FilmsEdit extends React.Component {
     }
 
     render() {
-        return( <div className="content">
+        return (<div className="content">
             <table>
                 <tr>
                     <td>
@@ -194,7 +193,7 @@ export class FilmsEdit extends React.Component {
                             genreTitle={this.state.genreTitle}
                             genreItem={this.state.genreItem}
                             genreList={this.state.genreList}
-                        
+
                             actorTitle={this.state.actorTitle}
                             actorItem={this.state.actorItem}
                             actorList={this.state.actorList}
@@ -219,17 +218,17 @@ export class FilmsEdit extends React.Component {
                 </tr>
                 <tr>
                     <td>
-                          <FindPanel
-                              onChangeArea={this.onChangeArea}
-                              onChange={this.onChange}
-                              submitFindeTitle={this.submitFindeTitle}
-                              submitFind={this.submitFind}
-                              submitDelete={this.submitDelete}
-                    
-                              indexDelete={this.state.indexDelete}
-                              indexFinde={this.state.indexFinde}
-                              indexTitle={this.state.indexTitle}
-                           />
+                        <FindPanel
+                            onChangeArea={this.onChangeArea}
+                            onChange={this.onChange}
+                            submitFindeTitle={this.submitFindeTitle}
+                            submitFind={this.submitFind}
+                            submitDelete={this.submitDelete}
+
+                            indexDelete={this.state.indexDelete}
+                            indexFinde={this.state.indexFinde}
+                            indexTitle={this.state.indexTitle}
+                        />
                     </td>
                 </tr>
                 <tr>
@@ -240,7 +239,7 @@ export class FilmsEdit extends React.Component {
                             submitDelete={this.submitDelete}
                         />
                     </td>
-                </tr>   
+                </tr>
             </table >
             <div class="AddDownToMain" />
         </div>);

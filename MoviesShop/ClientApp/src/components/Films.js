@@ -14,26 +14,26 @@ export class Films extends Component {
             forecasts: [],
             genres: [],
         };
-            this.noChange = this.onChange.bind(this),
+        this.noChange = this.onChange.bind(this),
             this.submitFind = this.submitFind.bind(this),
             this.submitFindeTitle = this.submitFindeTitle.bind(this),
             this.submitDelete = this.submitDelete.bind(this),
             this.submitFindeGenre = this.submitFindeGenre.bind(this),
 
-        fetch('api/Film')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ forecasts: data, loading: false });
-            });
+            fetch('api/Film')
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({ forecasts: data, loading: false });
+                });
 
         fetch('api/Genre')
             .then(response => response.json())
             .then(data => {
-                this.setState({ genres: data});
+                this.setState({ genres: data });
             });
 
     }
-    
+
     submitFind = id => {
         fetch(`api/Film?Id=${encodeURIComponent(id)}`, {
             method: 'Get',
@@ -81,16 +81,15 @@ export class Films extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    submitFindeGenre = genre =>
-    {
+    submitFindeGenre = genre => {
         fetch(`api/Film/genre/${encodeURIComponent(genre)}`, {
             method: 'Get',
         })
 
-        .then(response => response.json())
-        .then(data => {
-            this.setState({ forecasts: data, loading: false });
-        });
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ forecasts: data, loading: false });
+            });
     }
 
 
@@ -135,7 +134,7 @@ export class Films extends Component {
                                     {forecast.genreDTO.map(forc => <div class="contentList">{forc.title}.&nbsp; </div>)}
                                     </div>
                                     <div class="contentText">Actors:&nbsp;
-                                    {forecast.actorDTO.map(act => <div class="contentList">{act.name}.&nbsp; </div>)}
+                                    {forecast.actorDTO.map(act => <div class="contentList">{act.title}.&nbsp; </div>)}
                                     </div>
                                     <div className="box">
                                         <button class="editButton"  >
@@ -148,7 +147,7 @@ export class Films extends Component {
                     </div>
                     <div class="AddDownToMainFilm" />
                 </div>
-               
+
             </div>
         );
     }

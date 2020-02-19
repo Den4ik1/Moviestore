@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoviesShop.DTO;
+using MoviesShop.Mappers;
 using MoviesShop.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace MoviesShop.Repository
@@ -104,6 +104,9 @@ namespace MoviesShop.Repository
         //Редактирование фильма
         public void EditFilm(int? Id, FilmDTO _film)
         {
+            Film film = new Film();
+            film = _film.ConvertToFilme();
+
             var EditFilm = _context.Film.First(x => x.Id == Id);
             EditFilm.Title = _film.Title;
             EditFilm.Year = _film.Year;
@@ -114,7 +117,6 @@ namespace MoviesShop.Repository
         }
 
         //Поиск по названию
-        //public IQueryable<Film> GetFilmsTitle(string title)
         public IQueryable<Film> GetFilmsTitle(string title)
         {
             var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
