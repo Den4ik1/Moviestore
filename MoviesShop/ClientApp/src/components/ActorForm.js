@@ -48,13 +48,13 @@ const ActorForm = props => {
                             <input type="text" name="name" onChange={props.onChange} value={props.name} /><p />
 
                             <Label for="birthDay">Birth day:</Label>
-                            <input type="text" name="birthDay" onChange={props.onChange} value={props.birthDay} placeholder="1990/12/31" /><p />
+                    <input type="text" name="birthDay" onChange={props.onChange} value={props.birthDay.slice(0, 10)} placeholder="1990-12-31" /><p />
 
                             <Label for="country">Country:</Label>
                             <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
 
-                            <Label for="Films">Films:</Label>
-                            <textarea name="newListFilm" onChange={props.onChangeArea} value={props.films.map(r => r).join("\n")} class="areaSize" />
+                            <Label for="filmsDTO">Films:</Label>
+                            <textarea name="newListFilm" onChange={props.onChangeArea} value={props.filmsDTO.map(r => r).join("\n")} class="areaSize" />
                         </div>
 
                         <div class="boxForTaxtBox">
