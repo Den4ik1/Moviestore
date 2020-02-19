@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MoviesShop.Models;
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using MoviesShop.DTO;
-using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {

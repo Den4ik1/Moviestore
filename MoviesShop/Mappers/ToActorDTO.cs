@@ -17,7 +17,7 @@ namespace MoviesShop.Mappers
                 .ForMember(dto => dto.Title, opt => opt.MapFrom(c => c.Title))
                 .ReverseMap();
 
-            CreateMap<FilmItemDTO, FilmActor>()
+            CreateMap<RelationshipStagingDTO, FilmActor>()
                 .ReverseMap();
 
             CreateMap<Actor, ActorDTO>()

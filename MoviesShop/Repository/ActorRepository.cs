@@ -54,32 +54,32 @@ namespace MoviesShop.Repository
             actor = _actor.ConvertToActor();
 
             //Вносим исправления в данные актёра.
-            var ActorBD = _context.Actor.First(x => x.Id == id);
+            var ActorBD = _context.Actor.First(x => x.Id == ids);
             ActorBD.Name = actor.Name;
             ActorBD.Country = _testConunty(_actor.CountryDTO.Title);
 
             //удаление дубликатов фильмов, в данных полученных от пользователя
-            List<FilmActor> temp = new List<FilmActor>();
+            List<FilmActor> filmActor = new List<FilmActor>();
             foreach (var item in actor.FilmActor)
             {
-                if (!temp.Any(x => x.FilmId == item.FilmId))
+                if (!filmActor.Any(x => x.FilmId == item.FilmId))
                 {
-                    temp.Add(item);
+                    filmActor.Add(item);
                 }
             }
 
             actor.FilmActor = new List<FilmActor>();
-
             //проверка если такие фильмы у актёра в базе.
-            IQueryable<FilmActor> DataDBQ = _context.FilmActor.Where(x => x.ActorId == id);
-            List<FilmActor> DataDB = DataDBQ.ToList();
+            //собираем все фильмы в которых снимался актёр
+            IQueryable<FilmActor> actorFilmsDBQ = _context.FilmActor.Where(x => x.ActorId == ids);
+            List<FilmActor> actorFilmsDB = actorFilmsDBQ.ToList();
 
-            foreach (var item in DataDB)
+            foreach (var item in actorFilmsDB)
             {
-                temp.Remove(temp.First(x => x.FilmId == item.FilmId));
+                filmActor.Remove(filmActor.First(x => x.FilmId == item.FilmId));
             }
 
-            foreach (var item in temp)
+            foreach (var item in filmActor)
             {
                 _context.FilmActor.Add(item);
             }

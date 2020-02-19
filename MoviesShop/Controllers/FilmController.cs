@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoviesShop.DTO;
-using MoviesShop.Models;
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {
@@ -14,6 +12,7 @@ namespace MoviesShop.Controllers
     {
         private readonly FilmRepository _repository;
         private readonly IMapper _mapper;
+
         public FilmController(FilmRepository repository, IMapper mapper)
         {
             _repository = repository;
@@ -26,14 +25,11 @@ namespace MoviesShop.Controllers
         {
             if (Id.HasValue)
             {
-                return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id) });
+               // return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id) });
             }
             //List<FilmDTO> r = new List<FilmDTO>();
             //r =_repository.GetFilms().ToList().ConvertToFilmDTO();
-
-
             return _mapper.Map<List<FilmDTO>>(_repository.GetFilms());
-
         }
 
         //Поиск по названию

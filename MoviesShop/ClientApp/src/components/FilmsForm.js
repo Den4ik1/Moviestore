@@ -3,6 +3,13 @@ import React from 'react';
 import { Label } from 'reactstrap';
 
 const saveSubmitEdit = (e) => {
+    {
+        e.newListActor.map(x => (
+            console.log(x.filmId)));
+        e.newListGenre.map(x => (
+            console.log(x.filmId)));
+    }
+    ;
     alert("Film changed"),
         fetch(`api/Film?Id=${encodeURIComponent(e.id)}`, {
             method: 'post',
@@ -15,8 +22,8 @@ const saveSubmitEdit = (e) => {
                 countryDTO: {
                     title: e.countryDTO
                 },
-                genreDTO: e.genreDTO.map(function (itemGenre) { return { title: itemGenre } }),
-                actorDTO: e.actorDTO.map(function (itemActor) { return { name: itemActor } }),
+                filmGenreDTO: e.newListGenre.map(function (x) { return { secondId: x.genreId } }),
+                filmActorDTO: e.newListActor.map(function (y) { return { secondId: y.actorId } }),
                 urlImage: e.urlImage,
             }),
         })
@@ -48,21 +55,23 @@ const FilmsForm = props => {
                     <Label for="countryDTO">Country:</Label>
                     <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
 
-                    <Label for="GenreDTO">Genre:</Label>
-                    <textarea name="genreDTO" onChange={props.onChangeArea} value={props.genreDTO.map(r => r).join("\n")} class="areaSize" /><p />
+                    <Label for="genreDTO">Genre:</Label>
+                    <textarea name="newListGenre" onChange={props.onChangeArea} value={props.genreDTO.map(r => r).join("\n")} class="areaSize" /><p />
 
-                    <Label for="ActorDTO">Actors:</Label>
-                    <textarea name="actorDTO" onChange={props.onChangeArea} value={props.actorDTO.map(r => r).join("\n")} class="areaSize" /><p />
+                    <Label for="actorDTO">Actors:</Label>
+                    <textarea name="newListActor" onChange={props.onChangeArea} value={props.actorDTO.map(r => r).join("\n")} class="areaSize" /><p />
 
                     <Label for="Image">Url Image:</Label>
                     <input type="urlImage" name="urlImage" onChange={props.onChange} value={props.urlImage} /><p />
                 </div>
 
                 <div class="boxForTaxtBox">
+
                     <h3> <b>Add genres for film</b></h3>
+
                     <select name="genreItem" size="6" onChange={e => props.onChange(e)} >
-                        {props.genreList.map(genre => (
-                            <option key={genre.title} value={genre.title}>
+                        {props.fullListGenre.map(genre => (
+                            <option key={genre.title} value={genre.id}>
                                 {genre.title}
                             </option>
                         ))}
@@ -72,13 +81,14 @@ const FilmsForm = props => {
                         onClick={() => props.addGenre(props.genreItem)}
                     >
                         Genre
-                                    </button>
+                    </button>
 
                     <h3> <b>Add actors for film</b></h3>
+
                     <select name="actorItem" size="6" onChange={e => props.onChange(e)} >
-                        {props.actorList.map(actor => (
-                            <option key={actor.title} value={actor.title}>
-                                {actor.title}
+                        {props.fullListActor.map(actor => (
+                            <option key={actor.name} value={actor.id}>
+                                {actor.name}
                             </option>
                         ))}
                     </select>
@@ -87,7 +97,7 @@ const FilmsForm = props => {
                         onClick={() => props.addActor(props.actorItem)}
                     >
                         Actor
-                                    </button>
+                    </button>
                 </div>
             </div>
             {

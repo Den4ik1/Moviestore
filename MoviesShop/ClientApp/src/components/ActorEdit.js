@@ -33,20 +33,21 @@ export class ActorEdit extends Component {
         //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
         this.onChangeArea = this.onChangeArea.bind(this);
+
         //методы поиска
         this.submitFind = this.submitFind.bind(this),
-            this.submitFindeTitle = this.submitFindeTitle.bind(this),
-            this.submitDelete = this.submitDelete.bind(this),
-            //методы работы с данными
+        this.submitFindeTitle = this.submitFindeTitle.bind(this),
+        this.submitDelete = this.submitDelete.bind(this),
 
-            this.submitEdit = this.submitEdit.bind(this),
-            this.addFilm = this.addFilm.bind(this);
+        //методы работы с данными
+        this.submitEdit = this.submitEdit.bind(this),
+        this.addFilm = this.addFilm.bind(this);
 
         //очистка формы 
         this.clearForm = this.clearForm.bind(this),
 
 
-            fetch('api/Actors')
+        fetch('api/Actors')
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ forecasts: data });
@@ -102,7 +103,8 @@ export class ActorEdit extends Component {
         }
     }
 
-    ///////////////////////Методы лоя вырмы редактирования
+    ///////////////////////Методы для формы редактирования
+
     submitEdit(forecast) {
         this.setState({
             id: forecast.id,
@@ -147,9 +149,6 @@ export class ActorEdit extends Component {
                             forecasts={this.state.forecasts}
                             fullListFilms={this.state.fullListFilms}
 
-
-                            filmId={this.state.filmId}
-
                             id={this.state.id}
                             name={this.state.name}
                             birthDay={this.state.birthDay}
@@ -157,6 +156,7 @@ export class ActorEdit extends Component {
                             flag={this.state.flag}
                             title={this.state.title}
 
+                            filmId={this.state.filmId}
                             newListFilms={this.state.newListFilms}
                             filmItem={this.state.filmItem}
 

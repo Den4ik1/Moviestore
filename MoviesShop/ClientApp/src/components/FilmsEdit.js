@@ -4,7 +4,6 @@ import FindPanel from './FindPanel';
 import FilmsList from './FilmsList';
 import FilmsForm from './FilmsForm';
 
-///////////////////////////////////////////////////////////////////
 export class FilmsEdit extends React.Component {
     constructor(props) {
         super(props);
@@ -17,35 +16,48 @@ export class FilmsEdit extends React.Component {
             actorDTO: [],
             urlImage: '',
             forecasts: [],
-
+            //индексы для поиска
             indexDelete: '',
             indexFinde: '',
             indexTitle: '',
-
+            //флаг для редактирования
             flag: false,
-            //<Item> - новый элемент который будет добавлен
-            //<List> - список всех элементов которе находятся в БД
-            genreTitle: '',
+
+            ////////////////////////////////////
+            //модель жанра
             genreItem: '',
-            genreList: [],
-
-            actorTitle: '',
+            //полный список жанраов
+            fullListGenre: [],
+            //новый набор жанраов
+            newListGenre: [],
+            
+            ////////////////////////////////////
+            //модель актёра
             actorItem: '',
-            actorList: [],
+            //полный список актёров
+            fullListActor: [],
+            //новый набор актёров
+            newListActor: [],
+            
         };
-
-        this.noChangeArea = this.onChangeArea.bind(this),
+            //изменение полей заполнения
+            this.noChangeArea = this.onChangeArea.bind(this),
             this.noChange = this.onChange.bind(this),
+
+            //методы поиска
             this.submitFind = this.submitFind.bind(this),
             this.submitFindeTitle = this.submitFindeTitle.bind(this),
             this.submitDelete = this.submitDelete.bind(this),
-            this.submitEdit = this.submitEdit.bind(this),
-            this.clearForm = this.clearForm.bind(this),
 
+            //методы работы с данными
+            this.submitEdit = this.submitEdit.bind(this),
             this.addActor = this.addActor.bind(this),
             this.addGenre = this.addGenre.bind(this),
 
-            fetch('api/Film')
+             //очистка формы 
+             this.clearForm = this.clearForm.bind(this),
+
+        fetch('api/Film')
                 .then(response => response.json())
                 .then(data => {
                     this.setState({ forecasts: data });
@@ -54,17 +66,26 @@ export class FilmsEdit extends React.Component {
         fetch('api/Genre')
             .then(response => response.json())
             .then(data => {
-                this.setState({ genreList: data });
+                this.setState({ fullListGenre: data });
             });
         //Actor
         fetch('api/Actors')
             .then(response => response.json())
             .then(data => {
-                this.setState({ actorList: data });
+                this.setState({ fullListActor: data });
             });
     }
 
-    //////////////////////Method for Panel
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    onChangeArea = e => {
+        console.log("values: ", e.target.value)
+        this.setState({ [e.target.name]: e.target.value.split(",") })
+    }
+
+    //////////////////////Методы для понели поиска
     submitFind = id => {
         fetch(`api/Film?Id=${encodeURIComponent(id)}`, {
             method: 'Get',
@@ -98,41 +119,7 @@ export class FilmsEdit extends React.Component {
         }
     }
 
-    ///////////////////////Method for Edit Form
-    //submitNew = e => {
-    //    e.preventDefault();
-    //    alert("Film added"),
-    //    fetch('api/Film', {
-    //        method: 'post',
-    //        headers: {
-    //            'Content-Type': 'application/json'
-    //        },
-    //        body: JSON.stringify({
-    //            title: this.state.title,
-    //            year: this.state.year,
-    //            genreDTO: this.state.genreDTO.map(function (item) { return { title: item } }),
-    //            actorDTO: this.state.actorDTO.map(function (item) { return { name: item } }),
-    //            countryDTO: {
-    //                title: this.state.countryDTO
-    //            },
-    //        })
-
-    //    })
-    //        .then(() => {
-    //            this.props.toggle();
-    //        })
-    //            .catch(err => console.log(err));
-
-
-    //    this.setState({
-    //        id: '',
-    //        title: '',
-    //        year: '',
-    //        countryDTO: '',
-    //        genreDTO: [],
-    //        actorDTO: [],
-    //    });
-    //}
+    ///////////////////////Методы для формы редактирования
 
     submitEdit(forecast) {
         this.setState({
@@ -144,6 +131,30 @@ export class FilmsEdit extends React.Component {
             actorDTO: forecast.actorDTO.map(item => item.title),
             flag: true,
         })
+    }
+    
+    addActor(actor) {
+        const selectedData = this.state.fullListActor.find(x => x.id == actor);
+        //console.log(selectedData);
+        this.setState({
+            actorDTO: [...this.state.actorDTO, selectedData.name],
+            newListActor: [
+                ...this.state.newListActor,
+                { actorId: selectedData.id }
+            ]
+        });
+    }
+
+    addGenre(genre) {
+        const selectedData = this.state.fullListGenre.find(x => x.id == genre);
+        console.log(selectedData);
+        this.setState({
+            genreDTO: [...this.state.genreDTO, selectedData.title],
+            newListGenre: [
+                ...this.state.newListGenre,
+                { genreId: selectedData.id }
+            ]
+        });
     }
 
     clearForm() {
@@ -159,29 +170,6 @@ export class FilmsEdit extends React.Component {
         })
     }
 
-    onChange = e => {
-        this.setState({ [e.target.name]: e.target.value })
-    }
-
-    onChangeArea = e => {
-        console.log("values: ", e.target.value)
-        this.setState({ [e.target.name]: e.target.value.split(",") })
-    }
-
-    addActor(actor) {
-        this.setState({
-            actorDTO:
-                [...this.state.actorDTO, actor]
-        });
-    }
-
-    addGenre(genre) {
-        this.setState({
-            genreDTO:
-                [...this.state.genreDTO, genre]
-        });
-    }
-
     render() {
         return (<div className="content">
             <table>
@@ -189,14 +177,16 @@ export class FilmsEdit extends React.Component {
                     <td>
                         <FilmsForm
                             forecasts={this.state.forecasts}
+                            fullListActor={this.state.fullListActor}
+                            fullListGenre={this.state.fullListGenre}
 
-                            genreTitle={this.state.genreTitle}
+                            genreId={this.state.genreId}
                             genreItem={this.state.genreItem}
-                            genreList={this.state.genreList}
+                            newListGenre={this.state.newListGenre}
 
-                            actorTitle={this.state.actorTitle}
+                            actorId={this.state.actorId}
                             actorItem={this.state.actorItem}
-                            actorList={this.state.actorList}
+                            newListActor={this.state.newListActor}
 
                             id={this.state.id}
                             title={this.state.title}

@@ -12,7 +12,7 @@ namespace MoviesShop.Mappers
             List<FilmActor> filmActor = new List<FilmActor>();
             foreach (var item in @this.FilmsActorDTO)
             {
-                filmActor.Add(new FilmActor() { ActorId = item.ItemId, FilmId = item.FilmId });
+                filmActor.Add(new FilmActor() { ActorId = item.MainId, FilmId = item.SecondId });
             }
 
             //заполениен Actor

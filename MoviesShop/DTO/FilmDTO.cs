@@ -12,18 +12,18 @@ namespace MoviesShop.DTO
         public TitleDTO CountryDTO { get; set; }
 
         public List<TitleDTO> GenreDTO { get; set; }
-        public List<FilmItemDTO> FilmGenreDTO { get; set; }
+        public List<RelationshipStagingDTO> FilmGenreDTO { get; set; }
 
         public List<TitleDTO> ActorDTO { get; set; }
-        public List<FilmItemDTO> FilmActorDTO { get; set; }
+        public List<RelationshipStagingDTO> FilmActorDTO { get; set; }
 
         public FilmDTO()
         {
 
             GenreDTO = new List<TitleDTO>();
             ActorDTO = new List<TitleDTO>();
-            FilmActorDTO = new List<FilmItemDTO>();
-            FilmGenreDTO = new List<FilmItemDTO>();
+            FilmActorDTO = new List<RelationshipStagingDTO>();
+            FilmGenreDTO = new List<RelationshipStagingDTO>();
         }
     }
 }
