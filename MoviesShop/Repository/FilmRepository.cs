@@ -115,7 +115,7 @@ namespace MoviesShop.Repository
             EditFilm.Year = _film.Year;
             EditFilm.UrlImage = _film.UrlImage;
             EditFilm.Countrys = _testConunty(_film.CountryDTO.Title);
-
+           //_context.SaveChanges();
             #region Добавление Актёров
 
             //удаление дубликатов актёров, в данных полученных от пользователя
@@ -124,6 +124,7 @@ namespace MoviesShop.Repository
             {
                 if (!filmActor.Any(x => x.ActorId == item.ActorId))
                 {
+                    item.FilmId = idf;
                     filmActor.Add(item);
                 }
             }
@@ -137,7 +138,10 @@ namespace MoviesShop.Repository
 
             foreach (var item in filmActorsDB)
             {
-                filmActor.Remove(filmActor.First(x => x.ActorId == item.ActorId));
+                if (filmActor.Any(x => x.ActorId == item.ActorId))
+                {
+                    filmActor.Remove(filmActor.First(x => x.ActorId == item.ActorId));
+                }
             }
 
             foreach (var item in filmActor)
@@ -145,7 +149,7 @@ namespace MoviesShop.Repository
                 _context.FilmActor.Add(item);
             }
             #endregion
-
+            _context.SaveChanges();
             #region Добавление Жанров
 
             //удаление дубликатов жанров, в данных полученных от пользователя
@@ -157,7 +161,7 @@ namespace MoviesShop.Repository
                     filmGenre.Add(item);
                 }
             }
-
+            
             film.FilmGenre = new List<FilmGenre>();
             //проверка если такие фильмы у актёра в базе.
             //собираем все жанры в которых снят фильм
@@ -166,7 +170,11 @@ namespace MoviesShop.Repository
 
             foreach (var item in genreDB)
             {
-                filmGenre.Remove(filmGenre.First(x => x.GenreId == item.GenreId));
+                if (filmGenre.Any(x => x.GenreId == item.GenreId))
+                {
+                    filmGenre.Remove(filmGenre.First(x => x.GenreId == item.GenreId));
+                }
+               
             }
 
             foreach (var item in filmGenre)

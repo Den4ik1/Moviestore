@@ -22,7 +22,7 @@ const saveSubmitEdit = (e) => {
                 countryDTO: {
                     title: e.countryDTO
                 },
-                filmGenreDTO: e.newListGenre.map(function (x) { return { secondId: x.genreId } }),
+                filmGenreDTO: e.newListGenre.map(function (x) { return { mainId: x.genreId } }),
                 filmActorDTO: e.newListActor.map(function (y) { return { secondId: y.actorId } }),
                 urlImage: e.urlImage,
             }),
