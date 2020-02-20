@@ -51,6 +51,29 @@ namespace MoviesShop.Controllers
         [HttpPost("{Id?}")]
         public FilmDTO PostFilm(int? Id, [FromBody] FilmDTO _film)
         {
+            //Удаление дублекатов актёров во влеженном списке
+            List<RelationshipStagingDTO> tempActor = new List<RelationshipStagingDTO>(_film.FilmActorDTO);
+            _film.FilmActorDTO.Clear();
+            foreach (var item in tempActor)
+            {
+                if (!_film.FilmActorDTO.Any(x => x.SecondId == item.SecondId))
+                {
+                    _film.FilmActorDTO.Add(item);
+                }
+            }
+
+            //Удаление дублекатов жанров во влеженном списке
+            List<RelationshipStagingDTO> tempGenre = new List<RelationshipStagingDTO>(_film.FilmGenreDTO);
+            _film.FilmGenreDTO.Clear();
+            foreach (var item in tempGenre)
+            {
+                if (!_film.FilmGenreDTO.Any(x => x.SecondId == item.SecondId))
+                {
+                    _film.FilmGenreDTO.Add(item);
+                }
+            }
+
+            //Передача данных в репозиторий
             if (Id == 0)
             {
                 _repository.AddFilm(_film);

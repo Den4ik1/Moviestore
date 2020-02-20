@@ -102,9 +102,7 @@ namespace MoviesShop.Repository
                     ActorBD.FilmActor.Add(item);
                 }
             }
-
             _context.SaveChanges();
-
         }
 
         //удаление по Id
