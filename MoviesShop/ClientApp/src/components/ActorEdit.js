@@ -29,6 +29,8 @@ export class ActorEdit extends Component {
             fullListFilms: [],
             //новый набор фильмов
             newListFilms: [],
+
+            var tempListFilm = [];
         };
         //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
@@ -113,7 +115,15 @@ export class ActorEdit extends Component {
             countryDTO: forecast.countryDTO.title,
             filmsDTO: forecast.filmsDTO.map(item => item.title),
             flag: true,
-        })
+        });
+        
+        //var result = fullListFilms.filter(function (v) {
+        //    tempListFilm.some(function (v2) {
+        //        if (v.id == v2.id) 
+        //            tempListFilm: [
+        //                ...this.state.tempListFilm, {}]
+        //    }
+        //});
     }
 
     addFilm(film) {
@@ -126,6 +136,13 @@ export class ActorEdit extends Component {
                 ...this.state.newListFilms,
                 { filmId: selectedData.id }
             ]
+        });
+        this.deleteFilm(selectedData.id);
+    }
+
+    deleteFilm(film) {
+        this.setState({
+            fullListFilms: this.state.fullListFilms.filter(i => i.id !== film)
         });
     }
 

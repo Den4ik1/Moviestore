@@ -34,6 +34,15 @@ namespace MoviesShop.Repository
             return new User();
         }
 
+        //Поиск по имени
+        public IQueryable<User> GetUserName(string name)
+        {
+            var result = _context.User.Include(uf => uf.UserFilm)
+               .ThenInclude(f => f.Film)
+               .Where(p => p.Name.Contains($"{name}"));
+            return result;
+        }
+
         //Добавление User
         public void AddUser( User _user)
         {
@@ -54,15 +63,6 @@ namespace MoviesShop.Repository
             }
         }
 
-        //Поиск по имени
-        public IQueryable<User> GetUserName(string name)
-        {
-            var result = _context.User.Include(uf => uf.UserFilm)
-               .ThenInclude(f => f.Film)
-               .Where(p => p.Name.Contains($"{name}"));
-            return result;
-        }
-        
         //Удаление по ID
         public void DeleteUser(int? Id)
         {
