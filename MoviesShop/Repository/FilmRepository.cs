@@ -158,6 +158,7 @@ namespace MoviesShop.Repository
             {
                 if (!filmGenre.Any(x => x.GenreId == item.GenreId))
                 {
+                    item.FilmId = idf;
                     filmGenre.Add(item);
                 }
             }

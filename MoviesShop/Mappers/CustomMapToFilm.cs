@@ -12,6 +12,7 @@ namespace MoviesShop.Mappers
             List<FilmActor> filmActors = new List<FilmActor>();
             foreach (var item in @this.FilmActorDTO)
             {
+                //MainId - пустой при редактировании
                 filmActors.Add(new FilmActor() { ActorId = item.SecondId, FilmId = item.MainId});
             }
 
