@@ -25,6 +25,7 @@ namespace MoviesShop.Controllers
         {
             if (Id.HasValue)
             {
+               return new List<FilmDTO>() { _mapper.Map<FilmDTO>(_repository.GetId(Id)) };
                // return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id) });
             }
             //List<FilmDTO> r = new List<FilmDTO>();
@@ -36,16 +37,14 @@ namespace MoviesShop.Controllers
         [HttpGet("Title/{title}")]
         public List<FilmDTO> getFilmstitle(string title)
         {
-            var temp = _repository.GetFilmsTitle(title).ToList();
-            return _mapper.Map<List<FilmDTO>>(temp);
+            return _mapper.Map<List<FilmDTO>>(_repository.GetFilmsTitle(title).ToList());
         }
 
         //Фильтрация по жанру
         [HttpGet("genre/{genre}")]
         public List<FilmDTO> GetFilmGanre(string genre)
         {
-            var res = _mapper.Map<List<FilmDTO>>(_repository.GetFilmsGenre(genre).ToList());
-            return res;
+            return _mapper.Map<List<FilmDTO>>(_repository.GetFilmsGenre(genre).ToList());
         }
 
         // Создание/редактирование фильма

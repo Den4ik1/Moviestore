@@ -92,18 +92,36 @@ namespace MoviesShop.Repository
         //Добавление актёра
         public void AddActor(ActorDTO _actor)
         {
-            var newActor = new Actor()
+            var ActorsDBQ = _context.Actor;
+            var ActorsDB = ActorsDBQ.ToList();
+
+            var newActor = _actor.ConvertToActor();
+
+            //Проверка, есть ли такой актёр в БД
+            if (!ActorsDB.Any(x =>
+             (x.Name == newActor.Name) &&
+             (x.BirthDay == newActor.BirthDay) &&
+             (x.Country.NameOfTheCountry == newActor.Country.NameOfTheCountry)))
             {
-                Name = _actor.Name,
-                BirthDay = _actor.BirthDay,
-            };
+                _context.Actor.Add(newActor);
+            }
+            _context.SaveChanges();
 
-            newActor.Country = _testConunty(_actor.CountryDTO.Title);
-
-            _context.Actor.Add(newActor);
+            //удаление дубликатов фильмов, в данных полученных от пользователя
+            List<FilmActor> filmActor = new List<FilmActor>();
+          
+            foreach (var item in newActor.FilmActor)
+            {
+                if (!filmActor.Any(x => x.FilmId == item.FilmId))
+                {
+                    FilmActor temp = new FilmActor() { FilmId = item.FilmId, ActorId = item.ActorId };
+                    filmActor.Add(temp);
+                }
+            }
             _context.SaveChanges();
 
         }
+
         //Поиск по имени
         public IQueryable<Actor> GetActorName(string name)
         {

@@ -25,11 +25,9 @@ namespace MoviesShop.Controllers
 
             if (Id.HasValue)
             {
-                // return _repository.GetId(Id). (x => x.ConvertToActorDTO()).ToList();
+                return new List<ActorDTO>() { _mapper.Map<ActorDTO>(_repository.GetId(Id)) };
             }
-            //var res = _repository.GetFullActor().Select(x => x.ConvertToActorDTO()).ToList();
-            var res = _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
-            return res;
+            return _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
         }
 
         // Создание/редактирование актёра
@@ -51,8 +49,7 @@ namespace MoviesShop.Controllers
         [HttpGet("Name/{name}")]
         public List<ActorDTO> getActorName(string name)
         {
-            var temp = _repository.GetActorName(name);
-            return _mapper.Map<List<ActorDTO>>(temp).ToList();
+            return _mapper.Map<List<ActorDTO>>(_repository.GetActorName(name)).ToList();
         }
 
         //Удаление актёра по Id

@@ -149,7 +149,7 @@ namespace MoviesShop.Repository
                 _context.FilmActor.Add(item);
             }
             #endregion
-            _context.SaveChanges();
+            //_context.SaveChanges();
             #region Добавление Жанров
 
             //удаление дубликатов жанров, в данных полученных от пользователя
