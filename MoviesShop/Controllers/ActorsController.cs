@@ -22,19 +22,35 @@ namespace MoviesShop.Controllers
         [HttpGet("{Id?}")]
         public List<ActorDTO> GetFullActors(int? Id)
         {
-
             if (Id.HasValue)
             {
                 return new List<ActorDTO>() { _mapper.Map<ActorDTO>(_repository.GetId(Id)) };
             }
             return _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
         }
-
+        
+        //Поиск по имени
+        [HttpGet("Name/{name}")]
+        public List<ActorDTO> getActorName(string name)
+        {
+            return _mapper.Map<List<ActorDTO>>(_repository.GetActorName(name)).ToList();
+        }
+        
         // Создание/редактирование актёра
         [HttpPost("{Id?}")]
         public ActorDTO PostActor(int? Id, [FromBody] ActorDTO _actor)
         {
-            var r = _repository.GetFullActor().ToList();
+            //Удаление дублекатов во влеженном списке
+            List<RelationshipStagingDTO> temp = new List<RelationshipStagingDTO>(_actor.FilmsActorDTO);
+            _actor.FilmsActorDTO.Clear();
+
+            foreach (var item in temp)
+            {
+                if (!_actor.FilmsActorDTO.Any(x => x.SecondId == item.SecondId))
+                {
+                    _actor.FilmsActorDTO.Add(item);
+                }
+            }
 
             if (Id == 0)
             {
@@ -42,14 +58,7 @@ namespace MoviesShop.Controllers
                 return _actor;
             }
             _repository.EditActor(Id, _actor);
-            return null;
-        }
-
-        //Поиск по названию
-        [HttpGet("Name/{name}")]
-        public List<ActorDTO> getActorName(string name)
-        {
-            return _mapper.Map<List<ActorDTO>>(_repository.GetActorName(name)).ToList();
+            return _actor;
         }
 
         //Удаление актёра по Id

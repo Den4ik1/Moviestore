@@ -19,6 +19,7 @@ namespace MoviesShop.Repository
             _testConunty = new ExistCountry(context).TestCountry;
         }
 
+        //Вывод всех актёров
         public IQueryable<Actor> GetFullActor()
         {
             var t = _context.Actor
@@ -28,6 +29,7 @@ namespace MoviesShop.Repository
             return t;
         }
 
+        //Поиск по Id
         public Actor GetId(int? Id)
         {
             var result = _context.Actor
@@ -40,6 +42,37 @@ namespace MoviesShop.Repository
                 return result;
             }
             return new Actor();
+        }
+
+        //Поиск по имени
+        public IQueryable<Actor> GetActorName(string name)
+        {
+            var result = _context.Actor
+                .Include(af => af.FilmActor)
+                .ThenInclude(f => f.Film)
+                .Include(ac => ac.Country)
+                .Where(p => p.Name.Contains($"{name}"));
+            return result;
+        }
+
+        //Добавление актёра
+        public void AddActor(ActorDTO _actor)
+        {
+            //Вывод всех актёров из бд для проверки
+            var ActorsDBQ = _context.Actor;
+            var ActorsDB = ActorsDBQ.ToList();
+
+            var newActor = _actor.ConvertToActor();
+            
+            //Есть ли такой актёр уже в базе
+            if (!ActorsDB.Any(x =>
+             (x.Name == newActor.Name) &&
+             (x.BirthDay == newActor.BirthDay) &&
+             (x.Country.NameOfTheCountry == newActor.Country.NameOfTheCountry)))
+            {
+                _context.Actor.Add(newActor);
+            }
+            _context.SaveChanges();
         }
 
         //Редактирование актёра
@@ -58,79 +91,20 @@ namespace MoviesShop.Repository
             ActorBD.Name = actor.Name;
             ActorBD.Country = _testConunty(_actor.CountryDTO.Title);
 
-            //удаление дубликатов фильмов, в данных полученных от пользователя
-            List<FilmActor> filmActor = new List<FilmActor>();
-            foreach (var item in actor.FilmActor)
-            {
-                if (!filmActor.Any(x => x.FilmId == item.FilmId))
-                {
-                    item.ActorId = ida;
-                    filmActor.Add(item);
-                }
-            }
-
-            actor.FilmActor = new List<FilmActor>();
             //проверка если такие фильмы у актёра в базе.
             //собираем все фильмы в которых снимался актёр
             IQueryable<FilmActor> actorFilmsDBQ = _context.FilmActor.Where(x => x.ActorId == ida);
             List<FilmActor> actorFilmsDB = actorFilmsDBQ.ToList();
-
-            foreach (var item in actorFilmsDB)
+            foreach (var item in actor.FilmActor)
             {
-                filmActor.Remove(filmActor.First(x => x.FilmId == item.FilmId));
-            }
-
-            foreach (var item in filmActor)
-            {
-                _context.FilmActor.Add(item);
-            }
-
-            _context.SaveChanges();
-
-        }
-
-        //Добавление актёра
-        public void AddActor(ActorDTO _actor)
-        {
-            var ActorsDBQ = _context.Actor;
-            var ActorsDB = ActorsDBQ.ToList();
-
-            var newActor = _actor.ConvertToActor();
-
-            //Проверка, есть ли такой актёр в БД
-            if (!ActorsDB.Any(x =>
-             (x.Name == newActor.Name) &&
-             (x.BirthDay == newActor.BirthDay) &&
-             (x.Country.NameOfTheCountry == newActor.Country.NameOfTheCountry)))
-            {
-                _context.Actor.Add(newActor);
-            }
-            _context.SaveChanges();
-
-            //удаление дубликатов фильмов, в данных полученных от пользователя
-            List<FilmActor> filmActor = new List<FilmActor>();
-          
-            foreach (var item in newActor.FilmActor)
-            {
-                if (!filmActor.Any(x => x.FilmId == item.FilmId))
+                if (!actorFilmsDB.Any(x => x.FilmId == item.FilmId))
                 {
-                    FilmActor temp = new FilmActor() { FilmId = item.FilmId, ActorId = item.ActorId };
-                    filmActor.Add(temp);
+                    ActorBD.FilmActor.Add(item);
                 }
             }
+
             _context.SaveChanges();
 
-        }
-
-        //Поиск по имени
-        public IQueryable<Actor> GetActorName(string name)
-        {
-            var result = _context.Actor
-                .Include(af => af.FilmActor)
-                .ThenInclude(f => f.Film)
-                .Include(ac => ac.Country)
-                .Where(p => p.Name.Contains($"{name}"));
-            return result;
         }
 
         //удаление по Id

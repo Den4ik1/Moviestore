@@ -12,15 +12,14 @@ namespace MoviesShop.Mappers
             List<FilmActor> filmActors = new List<FilmActor>();
             foreach (var item in @this.FilmActorDTO)
             {
-                //MainId - пустой при редактировании
-                filmActors.Add(new FilmActor() { ActorId = item.SecondId, FilmId = item.MainId});
+                filmActors.Add(new FilmActor() { ActorId = item.SecondId});
             }
 
             //заполениен FilmGenre
             List<FilmGenre> filmGenres = new List<FilmGenre>();
             foreach (var item in @this.FilmGenreDTO)
             {
-                filmGenres.Add(new FilmGenre() { GenreId = item.SecondId, FilmId = item.MainId });
+                filmGenres.Add(new FilmGenre() { GenreId = item.SecondId});
             }
 
             //заполениен Film
