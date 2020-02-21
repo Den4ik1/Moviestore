@@ -14,6 +14,7 @@ export class ActorEdit extends Component {
             countryDTO: '',
             //фильмы актёра
             filmsDTO: [],
+            year: '',
             //веданные актёра
             forecasts: [],
             //индексы для поиска
@@ -30,7 +31,7 @@ export class ActorEdit extends Component {
             //новый набор фильмов
             newListFilms: [],
 
-            year:'',
+           
         };
         //изменение полей заполнения
         this.onChange = this.onChange.bind(this);

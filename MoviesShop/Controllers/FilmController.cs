@@ -47,6 +47,8 @@ namespace MoviesShop.Controllers
             return _mapper.Map<List<FilmDTO>>(_repository.GetFilmsGenre(genre).ToList());
         }
 
+        //Вывод фильмов в которых снимался актёр
+
         // Создание/редактирование фильма
         [HttpPost("{Id?}")]
         public FilmDTO PostFilm(int? Id, [FromBody] FilmDTO _film)
