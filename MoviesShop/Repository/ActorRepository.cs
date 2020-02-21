@@ -64,7 +64,7 @@ namespace MoviesShop.Repository
 
             var newActor = _actor.ConvertToActor();
             
-            //Есть ли такой актёр уже в базе
+            //Есть ли такой актёр уже в базе?
             if (!ActorsDB.Any(x =>
              (x.Name == newActor.Name) &&
              (x.BirthDay == newActor.BirthDay) &&
@@ -77,12 +77,11 @@ namespace MoviesShop.Repository
 
         //Редактирование актёра
         //Изменение личных данных актёра (кроме фильмов в которых он снимался)
-        //Проверка на дублекаты в фильмах, по промежуточной таблице.
         //Добавление новых записей в связную таблицу
         public void EditActor(int? id, ActorDTO _actor)
         {
             int ida = (int)id;
-            //Модель Actor с частично заполенной моделью FilmActor
+            //Модель Actor с заполенной FilmActor
             Actor actor = new Actor();
             actor = _actor.ConvertToActor();
 
@@ -91,16 +90,9 @@ namespace MoviesShop.Repository
             ActorBD.Name = actor.Name;
             ActorBD.Country = _testConunty(_actor.CountryDTO.Title);
 
-            //проверка если такие фильмы у актёра в базе.
-            //собираем все фильмы в которых снимался актёр
-            IQueryable<FilmActor> actorFilmsDBQ = _context.FilmActor.Where(x => x.ActorId == ida);
-            List<FilmActor> actorFilmsDB = actorFilmsDBQ.ToList();
             foreach (var item in actor.FilmActor)
             {
-                if (!actorFilmsDB.Any(x => x.FilmId == item.FilmId))
-                {
                     ActorBD.FilmActor.Add(item);
-                }
             }
             _context.SaveChanges();
         }

@@ -30,7 +30,7 @@ export class ActorEdit extends Component {
             //новый набор фильмов
             newListFilms: [],
 
-            var tempListFilm = [];
+            tempListFilm: [],
         };
         //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
@@ -116,14 +116,14 @@ export class ActorEdit extends Component {
             filmsDTO: forecast.filmsDTO.map(item => item.title),
             flag: true,
         });
-        
-        //var result = fullListFilms.filter(function (v) {
-        //    tempListFilm.some(function (v2) {
-        //        if (v.id == v2.id) 
-        //            tempListFilm: [
-        //                ...this.state.tempListFilm, {}]
-        //    }
-        //});
+      
+        for (var i = 0; i < forecast.filmsDTO.length; i++) {
+            for (var j = 0; j < this.state.fullListFilms.length; j++) {
+                if (this.state.fullListFilms[j].id == forecast.filmsDTO[i].id) {
+                        s: this.state.fullListFilms.splice(j, 1)
+                }
+            }
+        };
     }
 
     addFilm(film) {
@@ -154,7 +154,13 @@ export class ActorEdit extends Component {
             countryDTO: '',
             filmsDTO: [],
             flag: false,
-        })
+
+        });
+        fetch('api/Film')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ fullListFilms: data });
+            });
     }
 
     render() {
