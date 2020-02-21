@@ -30,7 +30,7 @@ export class ActorEdit extends Component {
             //новый набор фильмов
             newListFilms: [],
 
-            tempListFilm: [],
+            year:'',
         };
         //изменение полей заполнения
         this.onChange = this.onChange.bind(this);

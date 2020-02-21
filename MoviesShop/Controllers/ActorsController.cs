@@ -41,17 +41,6 @@ namespace MoviesShop.Controllers
         public ActorDTO PostActor(int? Id, [FromBody] ActorDTO _actor)
         {
             //Удаление дублекатов во влеженном списке
-            List<RelationshipStagingDTO> temp = new List<RelationshipStagingDTO>(_actor.FilmsActorDTO);
-            _actor.FilmsActorDTO.Clear();
-
-            foreach (var item in temp)
-            {
-                if (!_actor.FilmsActorDTO.Any(x => x.SecondId == item.SecondId))
-                {
-                    _actor.FilmsActorDTO.Add(item);
-                }
-            }
-
             if (Id == 0)
             {
                 _repository.AddActor(_actor);
