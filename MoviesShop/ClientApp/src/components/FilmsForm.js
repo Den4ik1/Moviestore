@@ -55,14 +55,15 @@ const FilmsForm = props => {
                     <Label for="countryDTO">Country:</Label>
                     <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
 
+                    <Label for="Image">Url Image:</Label>
+                    <input type="urlImage" name="urlImage" onChange={props.onChange} value={props.urlImage} /><p />
+
                     <Label for="genreDTO">Genre:</Label>
                     <textarea name="newListGenre" onChange={props.onChangeArea} value={props.genreDTO.map(r => r).join("\n")} class="areaSize" /><p />
 
                     <Label for="actorDTO">Actors:</Label>
                     <textarea name="newListActor" onChange={props.onChangeArea} value={props.actorDTO.map(r => r).join("\n")} class="areaSize" /><p />
 
-                    <Label for="Image">Url Image:</Label>
-                    <input type="urlImage" name="urlImage" onChange={props.onChange} value={props.urlImage} /><p />
                 </div>
 
                 <div class="boxForTaxtBox">
