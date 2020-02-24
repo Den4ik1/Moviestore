@@ -122,6 +122,19 @@ export class FilmsEdit extends React.Component {
     ///////////////////////Методы для формы редактирования
 
     submitEdit(forecast) {
+
+        fetch('api/Genre')
+            .then(response => response.json())
+            .then(data => {
+                this.state.fullListGenre = data;
+            });
+
+        fetch('api/Actors')
+            .then(response => response.json())
+            .then(data => {
+                this.state.fullListActor = data;
+            });
+
         this.setState({
             id: forecast.id,
             title: forecast.title,
@@ -131,11 +144,26 @@ export class FilmsEdit extends React.Component {
             actorDTO: forecast.actorDTO.map(item => item.title),
             flag: true,
         })
+
+        for (var i = 0; i < forecast.actorDTO.length; i++) {
+            for (var j = 0; j < this.state.fullListActor.length; j++) {
+                if (this.state.fullListActor[j].id == forecast.actorDTO[i].id) {
+                    s: this.state.fullListActor.splice(j, 1)
+                }
+            }
+        };
+
+        for (var i = 0; i < forecast.genreDTO.length; i++) {
+            for (var j = 0; j < this.state.fullListGenre.length; j++) {
+                if (this.state.fullListGenre[j].id == forecast.genreDTO[i].id) {
+                    s: this.state.fullListGenre.splice(j, 1)
+                }
+            }
+        };
     }
     
     addActor(actor) {
         const selectedData = this.state.fullListActor.find(x => x.id == actor);
-        //console.log(selectedData);
         this.setState({
             actorDTO: [...this.state.actorDTO, selectedData.name],
             newListActor: [
@@ -143,17 +171,30 @@ export class FilmsEdit extends React.Component {
                 { actorId: selectedData.id }
             ]
         });
+        this.deleteActor(selectedData.id);
+    }
+
+    deleteActor(actor) {
+        this.setState({
+            fullListActor: this.state.fullListActor.filter(i => i.id !== actor)
+        });
     }
 
     addGenre(genre) {
         const selectedData = this.state.fullListGenre.find(x => x.id == genre);
-        console.log(selectedData);
         this.setState({
             genreDTO: [...this.state.genreDTO, selectedData.title],
             newListGenre: [
                 ...this.state.newListGenre,
                 { genreId: selectedData.id }
             ]
+        });
+        this.deleteGenre(selectedData.id);
+    }
+
+    deleteGenre(genre) {
+        this.setState({
+            fullListGenre: this.state.fullListGenre.filter(i => i.id !== genre)
         });
     }
 
@@ -167,7 +208,18 @@ export class FilmsEdit extends React.Component {
             actorDTO: [],
             urlImage: '',
             flag: false,
-        })
+        });
+        fetch('api/Actors')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ fullListActor: data });
+            });
+
+        fetch('api/Genre')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ fullListGenre: data });
+            });
     }
 
     render() {
