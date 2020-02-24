@@ -109,6 +109,12 @@ export class ActorEdit extends Component {
     ///////////////////////Методы для формы редактирования
 
     submitEdit(forecast) {
+        fetch('api/Film')
+            .then(response => response.json())
+            .then(data => {
+                this.state.fullListFilms = data ;
+            });
+
         this.setState({
             id: forecast.id,
             name: forecast.name,
