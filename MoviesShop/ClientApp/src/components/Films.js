@@ -121,8 +121,8 @@ export class Films extends Component {
                         {this.state.forecasts.map(forecast =>
                             <div className="space">
                                 <div className="contentbolck">
-                                    <div class="im">
-                                        <img src={forecast.urlImage} />
+                                    <div class="im ">
+                                        <img src={forecast.urlImage} width="170px" height="220px" />
                                     </div>
                                     <div class="imageTit" />
 

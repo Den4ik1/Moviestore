@@ -44,16 +44,16 @@ const UserForm = props => {
                 <td>
                     {
                         props.flag ? (
-                            <button class="editButton" onClick={() => saveSubmitEdit(props)}>Change</button>
+                            <button class="okButton" onClick={() => saveSubmitEdit(props)}>Change</button>
                         ) : (
-                            <button class="editButton" onClick={() => saveSubmitEdit(props)}>Add</button>
+                                <button class="okButton" onClick={() => saveSubmitEdit(props)}>Add</button>
                         )
                     }
                 </td>
                 <td>
                     {
                         props.flag ? (
-                            <button class="editButton" onClick={() => props.clearForm()}>New</button>
+                            <button class="noButton" onClick={() => props.clearForm()}>New</button>
                         ) : (
                             <div />
                         )

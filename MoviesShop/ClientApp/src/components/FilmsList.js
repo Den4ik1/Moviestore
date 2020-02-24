@@ -34,7 +34,7 @@ const FilmsList = (props) => {
                         </td>
 
                         <td>
-                            <button class="editButton" onClick={() => props.submitDelete(forecast.id)}>Delete</button>
+                            <button class="noButton" onClick={() => props.submitDelete(forecast.id)}>Delete</button>
                         </td>
                     </tr>
                 )}

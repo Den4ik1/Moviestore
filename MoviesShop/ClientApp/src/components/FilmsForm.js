@@ -103,15 +103,15 @@ const FilmsForm = props => {
             </div>
             {
                 props.flag ? (
-                    <button class="editButton" onClick={() => saveSubmitEdit(props)}>Change</button>
+                    <button class="okButton" onClick={() => saveSubmitEdit(props)}>Change</button>
                 ) : (
-                        <button class="editButton" onClick={() => saveSubmitEdit(props)}>Add</button>
+                        <button class="okButton" onClick={() => saveSubmitEdit(props)}>Add</button>
                     )
             }
 
             {
                 props.flag ? (
-                    <button class="editButton" onClick={() => props.clearForm()}>New</button>
+                    <button class="noButton" onClick={() => props.clearForm()}>New</button>
                 ) : (
                         <div />
                     )
