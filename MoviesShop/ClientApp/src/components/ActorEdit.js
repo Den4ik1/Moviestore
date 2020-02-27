@@ -134,7 +134,6 @@ export class ActorEdit extends Component {
     }
 
     addFilm(film) {
-
         const selectedData = this.state.fullListFilms.find(x => x.id == film);
         console.log(selectedData);
         this.setState({

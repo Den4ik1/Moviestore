@@ -60,7 +60,7 @@ const ActorForm = props => {
                 <div class="boxForTaxtBox">
 
                     <h3> <b>Add films for actor</b></h3>
-
+                    <div>
                     <select name="filmItem" size="6" onChange={e => props.onChange(e)} >
                         {props.fullListFilms.map(film => (
                             <option key={film.title} value={film.id}>
@@ -68,7 +68,7 @@ const ActorForm = props => {
                             </option>
                         ))}
                     </select>
-
+                        </div>
 
                     <button
                         className="editButton"
