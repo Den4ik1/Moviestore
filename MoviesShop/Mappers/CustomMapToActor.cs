@@ -20,7 +20,7 @@ namespace MoviesShop.Mappers
             {
                 Id = @this.Id,
                 Name = @this.Name,
-                Country = new Countrys() { NameOfTheCountry = @this.CountryDTO.Title },
+                Country = new Countrys() { NameOfTheCountry = @this.CountryDTO.TitleView },
                 BirthDay = @this.BirthDay,
                 FilmActor = filmActor,
             };

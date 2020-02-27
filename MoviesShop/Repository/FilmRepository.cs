@@ -128,7 +128,7 @@ namespace MoviesShop.Repository
             EditFilm.Title = _film.Title;
             EditFilm.Year = _film.Year;
             EditFilm.UrlImage = _film.UrlImage;
-            EditFilm.Countrys = _testConunty(_film.CountryDTO.Title);
+            EditFilm.Countrys = _testConunty(_film.CountryDTO.TitleView);
             
             #region Добавление Актёров
             //проверка если такие актёры у фильма в базе.

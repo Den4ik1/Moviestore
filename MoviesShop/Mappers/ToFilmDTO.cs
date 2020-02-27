@@ -10,15 +10,15 @@ namespace MoviesShop.Mappers
         public ToFilmDTO()
         {
             CreateMap<Countrys, TitleDTO>()
-                .ForMember(dto => dto.Title, opt => opt.MapFrom(c => c.NameOfTheCountry))
+                .ForMember(dto => dto.TitleView, opt => opt.MapFrom(c => c.NameOfTheCountry))
                 .ReverseMap();
 
             CreateMap<Genre, TitleDTO>()
-                .ForMember(dto => dto.Title, opt => opt.MapFrom(g => g.Title))
+                .ForMember(dto => dto.TitleView, opt => opt.MapFrom(g => g.Title))
                 .ReverseMap();
 
-            CreateMap<Actor, TitleDTO>()
-                .ForMember(dto => dto.Title, opt => opt.MapFrom(a => a.Name))
+            CreateMap<Actor, ActorDTO>()
+                .ForMember(dto => dto.Name, opt => opt.MapFrom(a => a.Name))
                 .ReverseMap();
 
             CreateMap<Film, FilmDTO>()

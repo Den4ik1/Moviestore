@@ -4,6 +4,7 @@ using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {
@@ -30,7 +31,13 @@ namespace MoviesShop.Controllers
             }
             //List<FilmDTO> r = new List<FilmDTO>();
             //r =_repository.GetFilms().ToList().ConvertToFilmDTO();
-            return _mapper.Map<List<FilmDTO>>(_repository.GetFilms());
+            //var r = _mapper.Map<List<FilmDTO>>(_repository.GetFilms());
+            List<FilmDTO> actor = new List<FilmDTO>();
+            foreach (var item in _repository.GetFilms().ToList())
+            {
+                actor.Add(item.ConvertToFilmDTO());
+            }
+            return actor;
         }
 
         //Поиск по названию

@@ -12,9 +12,9 @@ export class ActorEdit extends Component {
             name: '',
             birthDay: '',
             countryDTO: '',
+            titleView: '',
             //фильмы актёра
             filmsDTO: [],
-            year: '',
             //веданные актёра
             forecasts: [],
             //индексы для поиска
@@ -25,13 +25,14 @@ export class ActorEdit extends Component {
             flag: false,
             //модель фильма
             title: '',
+            year: '',
             filmItem: '',
             //полный список фильмов
             fullListFilms: [],
             //новый набор фильмов
             newListFilms: [],
 
-           
+
         };
         //изменение полей заполнения
         this.onChange = this.onChange.bind(this);
@@ -49,17 +50,17 @@ export class ActorEdit extends Component {
         //очистка формы 
         this.clearForm = this.clearForm.bind(this),
 
-
         fetch('api/Actors')
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({ forecasts: data });
-                });
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ forecasts: data });
+            });
 
         fetch('api/Film')
             .then(response => response.json())
             .then(data => {
                 this.setState({ fullListFilms: data });
+                console.log(this.state.fullListFilms)
             });
     }
 
@@ -112,22 +113,22 @@ export class ActorEdit extends Component {
         fetch('api/Film')
             .then(response => response.json())
             .then(data => {
-                this.state.fullListFilms = data ;
+                this.state.fullListFilms = data;
             });
 
         this.setState({
             id: forecast.id,
             name: forecast.name,
             birthDay: forecast.birthDay,
-            countryDTO: forecast.countryDTO.title,
+            countryDTO: forecast.countryDTO.titleView,
             filmsDTO: forecast.filmsDTO.map(item => item.title),
             flag: true,
         });
-      
+
         for (var i = 0; i < forecast.filmsDTO.length; i++) {
             for (var j = 0; j < this.state.fullListFilms.length; j++) {
                 if (this.state.fullListFilms[j].id == forecast.filmsDTO[i].id) {
-                        s: this.state.fullListFilms.splice(j, 1)
+                    s: this.state.fullListFilms.splice(j, 1)
                 }
             }
         };
@@ -184,6 +185,7 @@ export class ActorEdit extends Component {
                             countryDTO={this.state.countryDTO}
                             flag={this.state.flag}
                             title={this.state.title}
+                            titleView={this.state.titleView}
 
                             filmId={this.state.filmId}
                             newListFilms={this.state.newListFilms}

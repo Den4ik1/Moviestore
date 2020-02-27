@@ -26,6 +26,7 @@ namespace MoviesShop.Repository
                 .Include(af => af.FilmActor)
                 .ThenInclude(f => f.Film)
                 .Include(ac => ac.Country);
+            var r = t.ToList();
             return t;
         }
 
@@ -88,7 +89,7 @@ namespace MoviesShop.Repository
             //Вносим исправления в данные актёра.
             var ActorBD = _context.Actor.First(x => x.Id == ida);
             ActorBD.Name = actor.Name;
-            ActorBD.Country = _testConunty(_actor.CountryDTO.Title);
+            ActorBD.Country = _testConunty(_actor.CountryDTO.TitleView);
 
             foreach (var item in actor.FilmActor)
             {

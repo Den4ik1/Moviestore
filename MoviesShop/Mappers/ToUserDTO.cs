@@ -10,7 +10,7 @@ namespace MoviesShop.Mappers
         public ToUserDTO()
         {
             CreateMap<Film, TitleDTO>()
-                .ForMember(dto => dto.Title, opt => opt.MapFrom(f => f.Title))
+                .ForMember(dto => dto.TitleView, opt => opt.MapFrom(f => f.Title))
                 .ReverseMap();
 
             CreateMap<User, UserDTO>()

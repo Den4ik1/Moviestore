@@ -28,7 +28,7 @@ namespace MoviesShop.Mappers
                 Id = @this.Id,
                 Title = @this.Title,
                 Year = @this.Year,
-                Countrys = new Countrys() { NameOfTheCountry = @this.CountryDTO.Title },
+                Countrys = new Countrys() { NameOfTheCountry = @this.CountryDTO.TitleView },
                 FilmActor = filmActors,
                 FilmGenre = filmGenres
             };

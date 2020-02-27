@@ -20,7 +20,7 @@ const saveSubmitEdit = (e) => {
                 name: e.name,
                 birthDay: e.birthDay,
                 countryDTO: {
-                    title: e.countryDTO,
+                    titleView: e.countryDTO,
                 },
                 filmsActorDTO: e.newListFilms.map(function (x) { return { secondId: x.filmId } }),
             })
@@ -61,10 +61,10 @@ const ActorForm = props => {
 
                     <h3> <b>Add films for actor</b></h3>
                     <div>
-                    <select name="filmItem" size="6" onChange={e => props.onChange(e)} >
+                        <select name="filmItem" size="6" onChange={props.onChange} >
                         {props.fullListFilms.map(film => (
                             <option key={film.title} value={film.id}>
-                                "{film.title}" - {film.countryDTO.title} - {film.year}
+                                "{film.title}" - {film.countryDTO.titleView} - {film.year}
                             </option>
                         ))}
                     </select>
