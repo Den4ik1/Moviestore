@@ -2,16 +2,15 @@
 import { Label } from 'reactstrap';
 import '../app.css';
 
-//////////////////////////////////////  1900/01/01
+//////////////////////////////////////
 const saveSubmitEdit = (e) => {
     {
         e.newListFilms.map(x => (
             console.log(x.filmId)));
     };
 
-
     alert("Actor changed"),
-        fetch(`api/Actors?Id=${encodeURIComponent(e.id)}`, {
+        fetch(`api/Actors?id=${encodeURIComponent(e.id)}`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,14 +19,13 @@ const saveSubmitEdit = (e) => {
                 name: e.name,
                 birthDay: e.birthDay,
                 countryDTO: {
-                    titleView: e.countryDTO,
+                    countryTitle: e.countryDTO,
                 },
                 filmsActorDTO: e.newListFilms.map(function (x) { return { secondId: x.filmId } }),
             })
         })
     e.clearForm()
 }
-
 
 const ActorForm = props => {
     return (
@@ -50,7 +48,7 @@ const ActorForm = props => {
                     <Label for="birthDay">Birth day:</Label>
                     <input type="text" name="birthDay" onChange={props.onChange} value={props.birthDay.slice(0, 10)} placeholder="1990-12-31" /><p />
 
-                    <Label for="country">Country:</Label>
+                    <Label for="countryDTO">Country:</Label>
                     <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
 
                     <Label for="filmsDTO">Films:</Label>
@@ -64,7 +62,7 @@ const ActorForm = props => {
                         <select name="filmItem" size="6" onChange={props.onChange} >
                         {props.fullListFilms.map(film => (
                             <option key={film.title} value={film.id}>
-                                "{film.title}" - {film.countryDTO.titleView} - {film.year}
+                                "{film.title}" - {film.countryDTO.countryTitle} - {film.year}
                             </option>
                         ))}
                     </select>

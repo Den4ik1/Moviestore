@@ -20,11 +20,11 @@ export class Films extends Component {
             this.submitDelete = this.submitDelete.bind(this),
             this.submitFindeGenre = this.submitFindeGenre.bind(this),
 
-            fetch('api/Film')
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({ forecasts: data, loading: false });
-                });
+        fetch('api/Film')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ forecasts: data, loading: false });
+            });
 
         fetch('api/Genre')
             .then(response => response.json())
@@ -35,7 +35,7 @@ export class Films extends Component {
     }
 
     submitFind = id => {
-        fetch(`api/Film?Id=${encodeURIComponent(id)}`, {
+        fetch(`api/Film?id=${encodeURIComponent(id)}`, {
             method: 'Get',
         })
             .then(response => response.json())
@@ -45,7 +45,7 @@ export class Films extends Component {
     }
 
     submitFind = id => {
-        fetch(`api/Film?Id=${encodeURIComponent(id)}`, {
+        fetch(`api/Film?id=${encodeURIComponent(id)}`, {
             method: 'Get',
         })
             .then(response => response.json())
@@ -65,7 +65,7 @@ export class Films extends Component {
     }
 
     submitDelete = id => {
-        let answer = window.confirm('Are you sure about this ID?')
+        let answer = window.confirm('Are you sure about this?')
         if (answer) {
             fetch(`api/Film?Id=${encodeURIComponent(id)}`, {
                 method: 'Delete',
@@ -129,9 +129,9 @@ export class Films extends Component {
                                     <div class="contentText">ID: {forecast.id} </div>
                                     <div class="contentText">Title: {forecast.title}</div>
                                     <div class="contentText">Year: {forecast.year}</div>
-                                    <div class="contentText">Contru: {forecast.countryDTO.titleView}</div>
+                                    <div class="contentText">Contru: {forecast.countryDTO.countryTitle}</div>
                                     <div class="contentText">Genre:&nbsp;
-                                    {forecast.genreDTO.map(forc => <div class="contentList">{forc.titleView}.&nbsp; </div>)}
+                                    {forecast.genreDTO.map(forc => <div class="contentList">{forc.title}.&nbsp; </div>)}
                                     </div>
                                     <div class="contentText">Actors:&nbsp;
                                     {forecast.actorDTO.map(act => <div class="contentList">{act.name}.&nbsp; </div>)}

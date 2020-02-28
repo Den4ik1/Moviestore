@@ -3,7 +3,6 @@ using MoviesShop.DTO;
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
@@ -12,55 +11,75 @@ namespace MoviesShop.Controllers
     public class FilmController
     {
         private readonly FilmRepository _repository;
-        private readonly IMapper _mapper;
 
-        public FilmController(FilmRepository repository, IMapper mapper)
+        public FilmController(FilmRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
-        //Вывод полной информации о фсех фильмах
-        [HttpGet("{Id?}")]
-        public List<FilmDTO> getFilms(int? Id)
+        //Вывод полной информации о (всех фильмах) / (по Id)
+        [HttpGet("{id?}")]
+        public List<FilmDTO> getFilms(int? id)
         {
-            if (Id.HasValue)
+            List<FilmDTO> film = new List<FilmDTO>();
+
+            if (id.HasValue)
             {
-               return new List<FilmDTO>() { _mapper.Map<FilmDTO>(_repository.GetId(Id)) };
-               // return _mapper.Map<List<FilmDTO>>(new List<Film>() { _repository.GetId(Id) });
+                film.Add(_repository.GetForId(id).ConvertToFilmDTO());
+                return film;
             }
-            //List<FilmDTO> r = new List<FilmDTO>();
-            //r =_repository.GetFilms().ToList().ConvertToFilmDTO();
-            //var r = _mapper.Map<List<FilmDTO>>(_repository.GetFilms());
-            List<FilmDTO> actor = new List<FilmDTO>();
-            foreach (var item in _repository.GetFilms().ToList())
+            else
             {
-                actor.Add(item.ConvertToFilmDTO());
+                foreach (var item in _repository.GetFilms().ToList())
+                {
+                    film.Add(item.ConvertToFilmDTO());
+                }
             }
-            return actor;
+            return film;
         }
 
         //Поиск по названию
         [HttpGet("Title/{title}")]
         public List<FilmDTO> getFilmstitle(string title)
         {
-            return _mapper.Map<List<FilmDTO>>(_repository.GetFilmsTitle(title).ToList());
+            List<FilmDTO> film = new List<FilmDTO>();
+
+            foreach (var item in _repository.GetFilmsForTitle(title).ToList())
+            {
+                film.Add(item.ConvertToFilmDTO());
+            };
+            return film;
         }
 
-        //Фильтрация по жанру
+        //Выборка по жанру
         [HttpGet("genre/{genre}")]
         public List<FilmDTO> GetFilmGanre(string genre)
         {
-            return _mapper.Map<List<FilmDTO>>(_repository.GetFilmsGenre(genre).ToList());
+            List<FilmDTO> film = new List<FilmDTO>();
+
+            foreach (var item in _repository.GetFilmsForGenre(genre).ToList())
+            {
+                film.Add(item.ConvertToFilmDTO());
+            };
+            return film;
         }
 
         //Вывод фильмов в которых снимался актёр
+        [HttpGet("[action]")]
+        public List<FilmDTO> GetFilmActor(string actor)
+        {
+            List<FilmDTO> film = new List<FilmDTO>();
+            foreach (var item in _repository.GetFilmsForActor(actor).ToList())
+            {
+                film.Add(item.ConvertToFilmDTO());
+            }
+            return film;
+        }
 
         // Создание/редактирование фильма
-        [HttpPost("{Id?}")]
-        public FilmDTO PostFilm(int? Id, [FromBody] FilmDTO _film)
+        [HttpPost("{id?}")]
+        public FilmDTO PostFilm(int? id, [FromBody] FilmDTO _film)
         {
-            //Удаление дублекатов актёров во влеженном списке
             List<RelationshipStagingDTO> tempActor = new List<RelationshipStagingDTO>(_film.FilmActorDTO);
             _film.FilmActorDTO.Clear();
             foreach (var item in tempActor)
@@ -83,20 +102,20 @@ namespace MoviesShop.Controllers
             }
 
             //Передача данных в репозиторий
-            if (Id == 0)
+            if (id == 0)
             {
                 _repository.AddFilm(_film);
                 return _film;
             }
-            _repository.EditFilm(Id, _film);
+            _repository.EditFilm(id, _film);
             return _film;
         }
 
         //Удаление фильма по Id
-        [HttpDelete("{Id?}")]
-        public void Delete(int? Id)
+        [HttpDelete("{id?}")]
+        public void Delete(int? id)
         {
-            _repository.DeleteFilm(Id);
+            _repository.DeleteFilm(id);
         }
     }
 }

@@ -12,9 +12,9 @@ export class ActorEdit extends Component {
             name: '',
             birthDay: '',
             countryDTO: '',
-            titleView: '',
             //фильмы актёра
             filmsDTO: [],
+            year: '',
             //веданные актёра
             forecasts: [],
             //индексы для поиска
@@ -25,7 +25,6 @@ export class ActorEdit extends Component {
             flag: false,
             //модель фильма
             title: '',
-            year: '',
             filmItem: '',
             //полный список фильмов
             fullListFilms: [],
@@ -50,17 +49,17 @@ export class ActorEdit extends Component {
         //очистка формы 
         this.clearForm = this.clearForm.bind(this),
 
-        fetch('api/Actors')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ forecasts: data });
-            });
+
+            fetch('api/Actors')
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({ forecasts: data });
+                });
 
         fetch('api/Film')
             .then(response => response.json())
             .then(data => {
                 this.setState({ fullListFilms: data });
-                console.log(this.state.fullListFilms)
             });
     }
 
@@ -75,7 +74,7 @@ export class ActorEdit extends Component {
 
     //////////////////////Методы для понели поиска
     submitFind = id => {
-        fetch(`api/Actors?Id=${encodeURIComponent(id)}`, {
+        fetch(`api/Actors?id=${encodeURIComponent(id)}`, {
             method: 'Get',
         })
             .then(response => response.json())
@@ -95,9 +94,9 @@ export class ActorEdit extends Component {
     }
 
     submitDelete = id => {
-        let answer = window.confirm('Are you sure about this ID?')
+        let answer = window.confirm('Are you sure about this?')
         if (answer) {
-            fetch(`api/Actors?Id=${encodeURIComponent(id)}`, {
+            fetch(`api/Actors?id=${encodeURIComponent(id)}`, {
                 method: 'Delete',
             })
                 .then(response => response.json())
@@ -120,21 +119,23 @@ export class ActorEdit extends Component {
             id: forecast.id,
             name: forecast.name,
             birthDay: forecast.birthDay,
-            countryDTO: forecast.countryDTO.titleView,
+            countryDTO: forecast.countryDTO.countryTitle,
             filmsDTO: forecast.filmsDTO.map(item => item.title),
             flag: true,
         });
-
+        console.log(this.state.fullListFilms)
         for (var i = 0; i < forecast.filmsDTO.length; i++) {
             for (var j = 0; j < this.state.fullListFilms.length; j++) {
-                if (this.state.fullListFilms[j].id == forecast.filmsDTO[i].id) {
+                if (this.state.fullListFilms[j].title == forecast.filmsDTO[i].title) {
                     s: this.state.fullListFilms.splice(j, 1)
+                    console.log(forecast.filmsDTO[i].title)
                 }
             }
         };
     }
 
     addFilm(film) {
+
         const selectedData = this.state.fullListFilms.find(x => x.id == film);
         console.log(selectedData);
         this.setState({
@@ -185,7 +186,6 @@ export class ActorEdit extends Component {
                             countryDTO={this.state.countryDTO}
                             flag={this.state.flag}
                             title={this.state.title}
-                            titleView={this.state.titleView}
 
                             filmId={this.state.filmId}
                             newListFilms={this.state.newListFilms}

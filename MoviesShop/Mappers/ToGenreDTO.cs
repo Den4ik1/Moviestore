@@ -8,7 +8,7 @@ namespace MoviesShop.Mappers
     {
         public ToGenreDTO()
         {
-            CreateMap<Genre, TitleDTO>()
+            CreateMap<Genre, GenreDTO>()
                 .ReverseMap();
         }
     }

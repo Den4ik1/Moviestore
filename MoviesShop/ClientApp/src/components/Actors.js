@@ -29,7 +29,7 @@ export class Actors extends Component {
     }
 
     submitFind = id => {
-        fetch(`api/Actors?Id=${encodeURIComponent(id)}`, {
+        fetch(`api/Actors?id=${encodeURIComponent(id)}`, {
             method: 'Get',
         })
             .then(response => response.json())
@@ -49,9 +49,9 @@ export class Actors extends Component {
     }
 
     submitDelete = id => {
-        let answer = window.confirm('Are you sure about this ID?')
+        let answer = window.confirm('Are you sure about this?')
         if (answer) {
-            fetch(`api/Actors?Id=${encodeURIComponent(id)}`, {
+            fetch(`api/Actors?id=${encodeURIComponent(id)}`, {
                 method: 'Delete',
             })
                 .then(response => response.json())

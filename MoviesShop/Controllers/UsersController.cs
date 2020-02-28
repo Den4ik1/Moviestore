@@ -5,6 +5,7 @@ using MoviesShop.Models;
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
+using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {
@@ -20,43 +21,56 @@ namespace MoviesShop.Controllers
             _repository = repository;
         }
 
-        //Вывод всех пользователей
-        [HttpGet("{Id?}")]
-        public List<UserDTO> GetUsers(int? Id)
+        //Вывод (всех пользователей)/(или по Id)
+        [HttpGet("{id?}")]
+        public List<UserDTO> GetUsers(int? id)
         {
-            if (Id.HasValue)
-            {
-                return _mapper.Map<List<UserDTO>>(new List<User>() { _repository.GetUserId(Id)});
-            }
-            return _mapper.Map<List<UserDTO>>(_repository.GetUserFilms().ToList());
-        }
+            List<UserDTO> user = new List<UserDTO>();
 
-        //Создание/Редактирование пользователя
-        [HttpPost]
-        public UserDTO PostUser(int? Id, [FromBody] UserDTO _user)
-        {
-            if (Id == 0)
+            if (id.HasValue)
             {
-                _repository.AddUser(_mapper.Map<User>(_user));
-                return _user;
+                user.Add(_repository.GetUserForId(id).ConvertToUserDTO());
+                return user;
             }
-            _repository.EditUser(Id, _mapper.Map<User>(_user));
-            return _user;
+            
+            foreach (var item in _repository.GetUsers().ToList())
+            {
+                user.Add(item.ConvertToUserDTO());
+            }
+            return user;
         }
 
         //Поиск по имени
         [HttpGet("Name/{name}")]
         public List<UserDTO> getUserName(string name)
         {
-            var temp = _repository.GetUserName(name);
-            return _mapper.Map<List<UserDTO>>(temp);
+            List<UserDTO> user = new List<UserDTO>();
+
+            foreach (var item in _repository.GetUserForName(name).ToList())
+            {
+                user.Add(item.ConvertToUserDTO());
+            };
+            return user;
+        }
+
+        //Создание/Редактирование пользователя
+        [HttpPost]
+        public UserDTO PostUser(int? id, [FromBody] UserDTO _user)
+        {
+            if (id == 0)
+            {
+                _repository.AddUser(_mapper.Map<User>(_user));
+                return _user;
+            }
+            _repository.EditUser(id, _mapper.Map<User>(_user));
+            return _user;
         }
 
         //Удаление пользователя по Id
-        [HttpDelete("{Id?}")]
-        public void Delete(int? Id)
+        [HttpDelete("{id?}")]
+        public void Delete(int? id)
         {
-            _repository.DeleteUser(Id);
+            _repository.DeleteUser(id);
         }
     }
 }

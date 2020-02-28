@@ -4,7 +4,7 @@ import '../app.css';
 
 const saveSubmitEdit = (e) => {
         alert("User changed"),
-        fetch(`api/Users?Id=${encodeURIComponent(e .id)}`, {
+        fetch(`api/Users?id=${encodeURIComponent(e .id)}`, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'

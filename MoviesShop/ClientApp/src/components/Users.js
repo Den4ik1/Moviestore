@@ -27,7 +27,7 @@ export class Users extends Component {
     }
 
     submitFind = id => {
-        fetch(`api/Users?Id=${encodeURIComponent(id)}`, {
+        fetch(`api/Users?id=${encodeURIComponent(id)}`, {
             method: 'Get',
         })
             .then(response => response.json())
@@ -47,9 +47,9 @@ export class Users extends Component {
     }
 
     submitDelete = id => {
-        let answer = window.confirm('Are you sure about this ID?')
+        let answer = window.confirm('Are you sure about this?')
         if (answer) {
-            fetch(`api/Users?Id=${encodeURIComponent(id)}`, {
+            fetch(`api/Users?id=${encodeURIComponent(id)}`, {
                 method: 'Delete',
             })
                 .then(response => response.json())

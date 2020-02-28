@@ -8,11 +8,11 @@ namespace MoviesShop.Mappers
     {
         public static FilmDTO ConvertToFilmDTO(this Film @this)
         {
-            List<TitleDTO> genres = new List<TitleDTO>();
+            List<GenreDTO> genres = new List<GenreDTO>();
 
             foreach (var item in @this.FilmGenre)
             {
-                genres.Add(new TitleDTO() {TitleView = item.Genre.Title});
+                genres.Add(new GenreDTO() {Title = item.Genre.Title});
             }
 
             List<ActorDTO> actors = new List<ActorDTO>();
@@ -28,7 +28,7 @@ namespace MoviesShop.Mappers
                 Title = @this.Title,
                 Year = @this.Year,
                 UrlImage = @this.UrlImage,
-                CountryDTO = new TitleDTO() { TitleView = @this.Countrys.NameOfTheCountry },
+                CountryDTO = new CountryDTO() { CountryTitle = @this.Countrys.NameOfTheCountry },
                 GenreDTO = genres,
                 ActorDTO = actors
             };

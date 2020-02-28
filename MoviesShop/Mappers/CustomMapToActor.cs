@@ -15,12 +15,12 @@ namespace MoviesShop.Mappers
                 filmActor.Add(new FilmActor() { ActorId = item.MainId, FilmId = item.SecondId });
             }
 
-            //заполениен Actor
+            //заполнение Actor
             Actor result = new Actor()
             {
                 Id = @this.Id,
                 Name = @this.Name,
-                Country = new Countrys() { NameOfTheCountry = @this.CountryDTO.TitleView },
+                Country = new Countrys() { NameOfTheCountry = @this.CountryDTO.CountryTitle },
                 BirthDay = @this.BirthDay,
                 FilmActor = filmActor,
             };

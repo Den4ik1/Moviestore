@@ -10,6 +10,8 @@ const UserList = (props) =>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Age</th>
+                    <th>LiveGenre</th>
+                    <th>Films</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -19,6 +21,10 @@ const UserList = (props) =>
                         <td> {forecast.id} </td>
                         <td> {forecast.name}</td>
                         <td> {forecast.age}</td>
+                            <td> {forecast.bestGenre.title} </td>
+                        <td> {forecast.filmsDTO.map(f => 
+                            <tr>{f.title}</tr>
+                        )} </td>
                         <td>
                             <button class="editButton" onClick={() => props.submitEdit(forecast)}>Edit</button>
                         </td>

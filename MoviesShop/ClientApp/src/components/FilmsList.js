@@ -21,12 +21,12 @@ const FilmsList = (props) => {
                         <td>{forecast.id}</td>
                         <td>{forecast.title}</td>
                         <td>{forecast.year}</td>
-                        <td>{forecast.countryDTO.titleView}</td>
+                        <td>{forecast.countryDTO.countryTitle}</td>
                         <td>{forecast.actorDTO.map(forc =>
                             <tr>{forc.name}</tr>
                         )}</td>
                         <td>{forecast.genreDTO.map(forc =>
-                            <tr>{forc.titleView}</tr>
+                            <tr>{forc.title}</tr>
                         )}</td>
                         <td>
                             <button class="editButton" onClick={() => props.submitEdit(forecast)}>Edit</button>

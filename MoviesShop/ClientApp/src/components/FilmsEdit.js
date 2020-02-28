@@ -30,7 +30,7 @@ export class FilmsEdit extends React.Component {
             fullListGenre: [],
             //новый набор жанраов
             newListGenre: [],
-            
+
             ////////////////////////////////////
             //модель актёра
             actorItem: '',
@@ -38,30 +38,30 @@ export class FilmsEdit extends React.Component {
             fullListActor: [],
             //новый набор актёров
             newListActor: [],
-            
+
         };
-            //изменение полей заполнения
-            this.noChangeArea = this.onChangeArea.bind(this),
-            this.noChange = this.onChange.bind(this),
+        //изменение полей заполнения
+        this.noChangeArea = this.onChangeArea.bind(this),
+        this.noChange = this.onChange.bind(this),
 
-            //методы поиска
-            this.submitFind = this.submitFind.bind(this),
-            this.submitFindeTitle = this.submitFindeTitle.bind(this),
-            this.submitDelete = this.submitDelete.bind(this),
+        //методы поиска
+        this.submitFind = this.submitFind.bind(this),
+        this.submitFindeTitle = this.submitFindeTitle.bind(this),
+        this.submitDelete = this.submitDelete.bind(this),
 
-            //методы работы с данными
-            this.submitEdit = this.submitEdit.bind(this),
-            this.addActor = this.addActor.bind(this),
-            this.addGenre = this.addGenre.bind(this),
+        //методы работы с данными
+        this.submitEdit = this.submitEdit.bind(this),
+        this.addActor = this.addActor.bind(this),
+        this.addGenre = this.addGenre.bind(this),
 
-             //очистка формы 
-             this.clearForm = this.clearForm.bind(this),
+        //очистка формы 
+        this.clearForm = this.clearForm.bind(this),
 
         fetch('api/Film')
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({ forecasts: data });
-                });
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ forecasts: data });
+            });
         //Genre
         fetch('api/Genre')
             .then(response => response.json())
@@ -139,15 +139,15 @@ export class FilmsEdit extends React.Component {
             id: forecast.id,
             title: forecast.title,
             year: forecast.year,
-            countryDTO: forecast.countryDTO.title,
+            countryDTO: forecast.countryDTO.countryTitle,
             genreDTO: forecast.genreDTO.map(item => item.title),
-            actorDTO: forecast.actorDTO.map(item => item.title),
+            actorDTO: forecast.actorDTO.map(item => item.name),
             flag: true,
         })
 
         for (var i = 0; i < forecast.actorDTO.length; i++) {
             for (var j = 0; j < this.state.fullListActor.length; j++) {
-                if (this.state.fullListActor[j].id == forecast.actorDTO[i].id) {
+                if (this.state.fullListActor[j].name == forecast.actorDTO[i].name) {
                     s: this.state.fullListActor.splice(j, 1)
                 }
             }
@@ -155,13 +155,13 @@ export class FilmsEdit extends React.Component {
 
         for (var i = 0; i < forecast.genreDTO.length; i++) {
             for (var j = 0; j < this.state.fullListGenre.length; j++) {
-                if (this.state.fullListGenre[j].id == forecast.genreDTO[i].id) {
+                if (this.state.fullListGenre[j].title == forecast.genreDTO[i].title) {
                     s: this.state.fullListGenre.splice(j, 1)
                 }
             }
         };
     }
-    
+
     addActor(actor) {
         const selectedData = this.state.fullListActor.find(x => x.id == actor);
         this.setState({

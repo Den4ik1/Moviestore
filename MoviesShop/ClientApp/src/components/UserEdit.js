@@ -12,7 +12,8 @@ export class UserEdit extends Component {
             id: 0,
             name: '',
             age: '',
-
+            title: '',
+            films: '',
             indexDelete: '',
             indexFinde: '',
             indexTitle: '',
@@ -36,9 +37,9 @@ export class UserEdit extends Component {
                 });
     }
 
-    //////////////////////Method for Panel
+    //////////////////////Методы для понели поиска
     submitFind = id => {
-        fetch(`api/Users?Id=${encodeURIComponent(id)}`, {
+        fetch(`api/Users?id=${encodeURIComponent(id)}`, {
             method: 'Get',
         })
             .then(response => response.json())
@@ -58,7 +59,7 @@ export class UserEdit extends Component {
     }
 
     submitDelete = id => {
-        let answer = window.confirm('Are you sure about this ID?')
+        let answer = window.confirm('Are you sure about this?')
         if (answer) {
             fetch(`api/Users?Id=${encodeURIComponent(id)}`, {
                 method: 'Delete',
@@ -70,7 +71,7 @@ export class UserEdit extends Component {
         }
     }
 
-    ///////////////////////Method for Edit Form
+    ///////////////////////Методы дял EditForm
 
     submitEdit(forecast) {
         this.setState({

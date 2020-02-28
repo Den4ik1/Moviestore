@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoviesShop.DTO;
 using MoviesShop.Models;
-using System.Collections.Generic;
 using System.Linq;
 using MoviesShop.Mappers;
 
@@ -31,7 +30,7 @@ namespace MoviesShop.Repository
         }
 
         //Поиск по Id
-        public Actor GetId(int? Id)
+        public Actor GetForId(int? Id)
         {
             var result = _context.Actor
                 .Include(af => af.FilmActor)
@@ -46,7 +45,7 @@ namespace MoviesShop.Repository
         }
 
         //Поиск по имени
-        public IQueryable<Actor> GetActorName(string name)
+        public IQueryable<Actor> GetForName(string name)
         {
             var result = _context.Actor
                 .Include(af => af.FilmActor)
@@ -89,7 +88,8 @@ namespace MoviesShop.Repository
             //Вносим исправления в данные актёра.
             var ActorBD = _context.Actor.First(x => x.Id == ida);
             ActorBD.Name = actor.Name;
-            ActorBD.Country = _testConunty(_actor.CountryDTO.TitleView);
+            ActorBD.BirthDay = actor.BirthDay;
+            ActorBD.Country = _testConunty(_actor.CountryDTO.CountryTitle);
 
             foreach (var item in actor.FilmActor)
             {

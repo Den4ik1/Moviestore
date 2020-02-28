@@ -20,7 +20,7 @@ const saveSubmitEdit = (e) => {
                 title: e.title,
                 year: e.year,
                 countryDTO: {
-                    title: e.countryDTO
+                    countryTitle: e.countryDTO
                 },
                 filmGenreDTO: e.newListGenre.map(function (x) { return { secondId: x.genreId } }),
                 filmActorDTO: e.newListActor.map(function (y) { return { secondId: y.actorId } }),

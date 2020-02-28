@@ -2,7 +2,6 @@
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using MoviesShop.DTO;
 using MoviesShop.Mappers;
 
@@ -12,23 +11,23 @@ namespace MoviesShop.Controllers
     public class ActorsController
     {
         private readonly ActorRepository _repository;
-        private readonly IMapper _mapper;
 
-        public ActorsController(ActorRepository repository, IMapper mapper)
+        public ActorsController(ActorRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
-        //Вывод полной информации о фсех актёрах
-        [HttpGet("{Id?}")]
-        public List<ActorDTO> GetFullActors(int? Id)
+
+        //Вывод полной информации о (всех актёрах) / (по Id)
+        [HttpGet("{id?}")]
+        public List<ActorDTO> GetFullActors(int? id)
         {
-            if (Id.HasValue)
-            {
-                return new List<ActorDTO>() { _mapper.Map<ActorDTO>(_repository.GetId(Id)) };
-            }
-            //var r = _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
             List<ActorDTO> actor = new List<ActorDTO>();
+
+            if (id.HasValue)
+            {
+                actor.Add(_repository.GetForId(id).ConvertToActorDTO());
+                return actor;
+            }
             foreach (var item in _repository.GetFullActor().ToList())
             {
                 actor.Add(item.ConvertToActorDTO());
@@ -41,28 +40,33 @@ namespace MoviesShop.Controllers
         [HttpGet("Name/{name}")]
         public List<ActorDTO> getActorName(string name)
         {
-            return _mapper.Map<List<ActorDTO>>(_repository.GetActorName(name)).ToList();
+            List<ActorDTO> actor = new List<ActorDTO>();
+
+            foreach (var item in _repository.GetForName(name).ToList())
+            {
+                actor.Add(item.ConvertToActorDTO());
+            };
+            return actor;
         }
         
         // Создание/редактирование актёра
-        [HttpPost("{Id?}")]
-        public ActorDTO PostActor(int? Id, [FromBody] ActorDTO _actor)
+        [HttpPost("{id?}")]
+        public ActorDTO PostActor(int? id, [FromBody] ActorDTO _actor)
         {
-            //Удаление дублекатов во влеженном списке
-            if (Id == 0)
+            if (id == 0)
             {
                 _repository.AddActor(_actor);
                 return _actor;
             }
-            _repository.EditActor(Id, _actor);
+            _repository.EditActor(id, _actor);
             return _actor;
         }
 
         //Удаление актёра по Id
-        [HttpDelete("{Id?}")]
-        public void Delete(int? Id)
+        [HttpDelete("{id?}")]
+        public void Delete(int? id)
         {
-            _repository.DeleteActor(Id);
+            _repository.DeleteActor(id);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MoviesShop.Models
 {
-    //промежуточная таблица ФФильмы и Жанры
+    //Промежуточная таблица ФФильмы и Жанры
     public class FilmGenre
     {
         public int Id { get; set; }

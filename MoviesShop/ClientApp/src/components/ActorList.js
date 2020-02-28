@@ -20,7 +20,7 @@ const ActorList = (props) => {
                         <td>{forecast.id}</td>
                         <td>{forecast.name}</td>
                         <td>{forecast.birthDay.slice(0, 10)}</td>
-                        <td>{forecast.countryDTO.titleView}</td>
+                        <td>{forecast.countryDTO.countryTitle}</td>
                         <td>{forecast.filmsDTO.map(forc =>
                             <tr>{forc.title}</tr>
                         )}</td>
