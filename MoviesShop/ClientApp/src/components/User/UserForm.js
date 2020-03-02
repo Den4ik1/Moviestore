@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { FormGroup, Label } from 'reactstrap';
-import '../app.css';
+import '../../app.css';
 
 const saveSubmitEdit = (e) => {
         alert("User changed"),

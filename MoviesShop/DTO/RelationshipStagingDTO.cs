@@ -1,6 +1,7 @@
 ﻿namespace MoviesShop.DTO
 {
     //Класс для заполениея промежуточных таблицы
+    //(используется только для записи в БД)
     public class RelationshipStagingDTO
     {
         //Id связи (создаётся автоматически)

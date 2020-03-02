@@ -1,15 +1,16 @@
-﻿import '../app.css';
+﻿import '../../app.css';
 import React from 'react'
 
-const ActorList = (props) => {
+const UserList = (props) =>
+{
     return (
         <table className='table'>
             <thead>
                 <tr>
                     <th>Id</th>
                     <th>Name</th>
-                    <th>BirthDay</th>
-                    <th>Country</th>
+                    <th>Age</th>
+                    <th>LiveGenre</th>
                     <th>Films</th>
                     <th>Action</th>
                 </tr>
@@ -17,18 +18,16 @@ const ActorList = (props) => {
             <tbody>
                 {props.forecasts.map(forecast =>
                     <tr key={forecast.id}>
-                        <td>{forecast.id}</td>
-                        <td>{forecast.name}</td>
-                        <td>{forecast.birthDay.slice(0, 10)}</td>
-                        <td>{forecast.countryDTO.countryTitle}</td>
-                        <td>{forecast.filmsDTO.map(forc =>
-                            <tr>{forc.title}</tr>
-                        )}</td>
+                        <td> {forecast.id} </td>
+                        <td> {forecast.name}</td>
+                        <td> {forecast.age}</td>
+                            <td> {forecast.bestGenre.title} </td>
+                        <td> {forecast.filmsDTO.map(f => 
+                            <tr>{f.title}</tr>
+                        )} </td>
                         <td>
                             <button class="editButton" onClick={() => props.submitEdit(forecast)}>Edit</button>
-
                         </td>
-
                         <td>
                             <button class="noButton" onClick={() => props.submitDelete(forecast.id)}>Delete</button>
                         </td>
@@ -36,7 +35,7 @@ const ActorList = (props) => {
                 )}
             </tbody>
         </table>
-    )
+        )
 }
 
-export default ActorList;
+export default UserList;

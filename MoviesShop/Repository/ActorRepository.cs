@@ -71,8 +71,8 @@ namespace MoviesShop.Repository
              (x.Country.NameOfTheCountry == newActor.Country.NameOfTheCountry)))
             {
                 _context.Actor.Add(newActor);
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
         }
 
         //Редактирование актёра

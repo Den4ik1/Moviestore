@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import ActorList from './ActorList';
 import ActorForm from './ActorForm';
-import FindPanel from './FindPanel';
-import '../app.css';
+import FindPanel from '../FindPanel';
+import '../../app.css';
 
 export class ActorEdit extends Component {
     constructor(props) {

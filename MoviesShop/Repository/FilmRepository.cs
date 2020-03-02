@@ -56,24 +56,30 @@ namespace MoviesShop.Repository
             return result;
         }
 
-        //Фильтрация по жанрам
+        //Выборка по жанрам
         public IQueryable<Film> GetFilmsForGenre(string genre)
         {
+            //Вывод Id жанра по токотору совершена выборка
             var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Title.Contains(genre));
-            var ids = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
-            var films = _context.Film.Where(f => ids.Contains(f.Id))
+            var idg = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
+
+
+            var films = _context.Film.Where(f => idg.Contains(f.Id))
                 .Include(c => c.Countrys)
                 .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                 .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
             return films;
         }
 
-        //Фильтрация по актёру
+        //Выборка по актёру
         public IQueryable<Film> GetFilmsForActor(string actor)
         {
+            //Вывод Id актйра по токотору совершена выборка
             var act = _context.Actor.Include(a => a.FilmActor).FirstOrDefault(a => a.Name.Contains(actor));
-            var ids = act.FilmActor.Select(fa => fa.FilmId).ToList();
-            var films = _context.Film.Where(f => ids.Contains(f.Id))
+            var ida = act.FilmActor.Select(fa => fa.FilmId).ToList();
+
+
+            var films = _context.Film.Where(f => ida.Contains(f.Id))
                 .Include(c => c.Countrys)
                 .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                 .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
@@ -187,6 +193,7 @@ namespace MoviesShop.Repository
             _context.Film.Remove(_context.Film.First(x => x.Id == id));
             _context.SaveChanges();
         }
+
     }
 }
 

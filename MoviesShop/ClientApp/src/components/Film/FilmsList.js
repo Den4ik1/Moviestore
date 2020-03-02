@@ -1,4 +1,4 @@
-﻿import '../app.css';
+﻿import '../../app.css';
 import React from 'react'
 
 const FilmsList = (props) => {

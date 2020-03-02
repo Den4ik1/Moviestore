@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
-import '../app.css';
-import FindPanel from './FindPanel';
+import '../../app.css';
+import FindPanel from '../FindPanel';
 import ActorList from './ActorList';
 export class Actors extends Component {
 

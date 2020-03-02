@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
-import '../app.css';
-import GenreList from './GenreList';
-import FindPanel from './FindPanel';
+import '../../app.css';
+import GenreList from '../GenreList';
+import FindPanel from '../FindPanel';
 
 export class Films extends Component {
 

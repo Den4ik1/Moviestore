@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Label } from 'reactstrap';
-import '../app.css';
+import '../../app.css';
 
 //////////////////////////////////////
 const saveSubmitEdit = (e) => {

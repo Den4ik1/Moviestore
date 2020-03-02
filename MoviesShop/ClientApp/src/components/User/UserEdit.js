@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
-import '../app.css';
-import FindPanel from './FindPanel';
+import '../../app.css';
+import FindPanel from '../FindPanel';
 import UserList from './UserList';
 import UserForm from './UserForm';
 

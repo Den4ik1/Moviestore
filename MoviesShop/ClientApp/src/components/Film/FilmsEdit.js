@@ -1,6 +1,6 @@
 ﻿import React from 'react';
-import '../app.css';
-import FindPanel from './FindPanel';
+import '../../app.css';
+import FindPanel from '../FindPanel';
 import FilmsList from './FilmsList';
 import FilmsForm from './FilmsForm';
 
