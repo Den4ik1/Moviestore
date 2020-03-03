@@ -10,7 +10,7 @@ namespace MoviesShop.Repository
     {
         private readonly MoviesShopContext _context;
         private delegate Countrys _сheckConunty(string titleCounty);
-        private _сheckConunty _testConunty;
+        private readonly _сheckConunty _testConunty;
 
         public ActorRepository(MoviesShopContext context)
         {
@@ -21,12 +21,11 @@ namespace MoviesShop.Repository
         //Вывод всех актёров
         public IQueryable<Actor> GetFullActor()
         {
-            var t = _context.Actor
+            var result = _context.Actor
                 .Include(af => af.FilmActor)
                 .ThenInclude(f => f.Film)
                 .Include(ac => ac.Country);
-            var r = t.ToList();
-            return t;
+            return result;
         }
 
         //Поиск по Id

@@ -1,10 +1,9 @@
-﻿using MoviesShop.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MoviesShop.Models
 {
-    public class Actor : IData
+    public class Actor
     {
         public int Id { get; set; }
         public string Name { get; set; }

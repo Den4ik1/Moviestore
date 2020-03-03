@@ -42,7 +42,7 @@ namespace MoviesShop.Controllers
 
         //Поиск по имени
         [HttpGet("Name/{name}")]
-        public List<UserDTO> getUserName(string name)
+        public List<UserDTO> GetUserName(string name)
         {
             List<UserDTO> user = new List<UserDTO>();
 

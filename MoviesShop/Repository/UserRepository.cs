@@ -18,19 +18,20 @@ namespace MoviesShop.Repository
         //Вывод всех пользователей и фильмы которые они смотрели.
         public IQueryable<User> GetUsers()
         {
-            var t = _context.User
+            var result = _context.User
                 .Include(uf => uf.UserFilm)
                 .ThenInclude(f => f.Film)
                 .ThenInclude(gf => gf.FilmGenre).ThenInclude(x => x.Genre);
-            var r = t.ToList();
-            return t;
+            return result;
         }
 
         //Вывод по ID
         public User GetUserForId(int? id)
         {
-            var result = _context.User.Include(uf => uf.UserFilm).ThenInclude(f => f.Film)
-                 .First(x => x.Id == id);
+            var result = _context.User
+                .Include(uf => uf.UserFilm)
+                .ThenInclude(f => f.Film)
+                .First(x => x.Id == id);
             if (result != null)
             {
                 return result;

@@ -22,13 +22,11 @@ namespace MoviesShop.Repository
         //Вывод всех фильмов и доп. информацию (жанры, страна произвотсва и т.д.)
         public IQueryable<Film> GetFilms()
         {
-            var temp = _context.Film
+            var result = _context.Film
                 .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                 .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
                 .Include(c => c.Countrys);
-            var r = temp.ToList();
-
-            return temp;
+            return result;
         }
 
         //Поиск по Id

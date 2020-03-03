@@ -38,7 +38,7 @@ namespace MoviesShop.Controllers
         
         //Поиск по имени
         [HttpGet("Name/{name}")]
-        public List<ActorDTO> getActorName(string name)
+        public List<ActorDTO> GetActorName(string name)
         {
             List<ActorDTO> actor = new List<ActorDTO>();
 

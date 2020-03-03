@@ -19,7 +19,7 @@ namespace MoviesShop.Controllers
 
         //Вывод полной информации о (всех фильмах) / (по Id)
         [HttpGet("{id?}")]
-        public List<FilmDTO> getFilms(int? id)
+        public List<FilmDTO> GetFilms(int? id)
         {
             List<FilmDTO> film = new List<FilmDTO>();
 
@@ -40,7 +40,7 @@ namespace MoviesShop.Controllers
 
         //Поиск по названию
         [HttpGet("Title/{title}")]
-        public List<FilmDTO> getFilmstitle(string title)
+        public List<FilmDTO> GetFilmstitle(string title)
         {
             List<FilmDTO> film = new List<FilmDTO>();
 
