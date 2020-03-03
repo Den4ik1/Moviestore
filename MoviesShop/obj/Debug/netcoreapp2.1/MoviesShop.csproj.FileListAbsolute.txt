@@ -39,3 +39,4 @@ C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\M
 C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.RazorTargetAssemblyInfo.cache
 C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.dll
 C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.pdb
+C:\Users\dziadovich\source\repos\Moviestore\MoviesShop\obj\Debug\netcoreapp2.1\MoviesShop.csprojAssemblyReference.cache

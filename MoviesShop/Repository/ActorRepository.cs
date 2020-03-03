@@ -3,6 +3,7 @@ using MoviesShop.DTO;
 using MoviesShop.Models;
 using System.Linq;
 using MoviesShop.Mappers;
+using System.Collections.Generic;
 
 namespace MoviesShop.Repository
 {
@@ -19,12 +20,17 @@ namespace MoviesShop.Repository
         }
 
         //Вывод всех актёров
-        public IQueryable<Actor> GetFullActor()
+        //public IQueryable<Actor> GetFullActor()
+        public List<Actor> GetFullActor()
         {
-            var result = _context.Actor
-                .Include(af => af.FilmActor)
-                .ThenInclude(f => f.Film)
-                .Include(ac => ac.Country);
+            var result = _context.Actor.ToList();//.Select(x=>new {filmAcrt = x.FilmActor, })
+
+            //Рабочая штука
+            //_context.Actor   
+            //.Include(af => af.FilmActor)
+            //.ThenInclude(f => f.Film)
+            //.Include(ac => ac.Country);
+
             return result;
         }
 

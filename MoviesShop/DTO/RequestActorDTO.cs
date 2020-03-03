@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MoviesShop.DTO
 {
-    public class ActorDTO
+    public class RequestActorDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,13 +11,10 @@ namespace MoviesShop.DTO
         public CountryDTO CountryDTO { get; set; }
 
         public ICollection<RelationshipStagingDTO> FilmsActorDTO { get; set; }
-        public ICollection<FilmDTO> FilmsDTO { get; set; }
 
-        public ActorDTO()
+        public RequestActorDTO()
         {
             FilmsActorDTO = new List<RelationshipStagingDTO>();
-            FilmsDTO = new List<FilmDTO>();
-
         }
     }
 }
