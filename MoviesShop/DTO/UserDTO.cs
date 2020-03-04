@@ -10,11 +10,11 @@ namespace MoviesShop.DTO
         public int Age { get; set; }
         //public GenreDTO[] GenresDTO { get; set; }
         public GenreDTO BestGenre { get; set; }
-        public ICollection<FilmDTO> FilmsDTO { get; set; }
+        public ICollection<ResponseFilmDTO> FilmsDTO { get; set; }
 
         public UserDTO()
         {
-            FilmsDTO = new List<FilmDTO>();
+            FilmsDTO = new List<ResponseFilmDTO>();
         }
     }
 }

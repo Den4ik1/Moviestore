@@ -10,11 +10,11 @@ namespace MoviesShop.DTO
         public DateTime? BirthDay { get; set; }
         public CountryDTO CountryDTO { get; set; }
 
-        public ICollection<FilmDTO> FilmsDTO { get; set; }
+        public ICollection<ResponseFilmDTO> FilmsDTO { get; set; }
 
         public ResponseActorDTO()
         {
-            FilmsDTO = new List<FilmDTO>();
+            FilmsDTO = new List<ResponseFilmDTO>();
         }
     }
 }

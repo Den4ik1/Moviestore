@@ -36,20 +36,20 @@ const ActorForm = props => {
                     {props.flag ? (
                         <div>
                             <Label for="id">Id:</Label><p />
-                            <input type="text" name="id" value={props.id} />  <p />
+                            <input type="text" name="id" value={props.id} class="areaSize"/>  <p />
                         </div>
                     ) : (
                             <div />
                         )}
 
                     <Label for="name">Name:</Label>
-                    <input type="text" name="name" onChange={props.onChange} value={props.name} /><p />
+                    <input type="text" name="name" onChange={props.onChange} value={props.name} class="areaSize"  /><p />
 
                     <Label for="birthDay">Birth day:</Label>
-                    <input type="text" name="birthDay" onChange={props.onChange} value={props.birthDay.slice(0, 10)} placeholder="1990-12-31" /><p />
+                    <input type="text" name="birthDay" onChange={props.onChange} value={props.birthDay.slice(0, 10)} placeholder="1990-12-31" class="areaSize"/><p />
 
                     <Label for="countryDTO">Country:</Label>
-                    <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
+                    <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} class="areaSize"/><p />
 
                     <Label for="filmsDTO">Films:</Label>
                     <textarea name="newListFilm" onChange={props.onChangeArea} value={props.filmsDTO.map(r => r).join("\n")} class="areaSize" />

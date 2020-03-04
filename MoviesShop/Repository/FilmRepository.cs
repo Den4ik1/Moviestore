@@ -11,7 +11,7 @@ namespace MoviesShop.Repository
     {
         private readonly MoviesShopContext _context;
         private delegate Countrys _сheckConunty(string titleCounty);
-        private _сheckConunty _testConunty;
+        private readonly _сheckConunty _testConunty;
 
         public FilmRepository(MoviesShopContext context)
         {
@@ -61,7 +61,6 @@ namespace MoviesShop.Repository
             var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Title.Contains(genre));
             var idg = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
 
-
             var films = _context.Film.Where(f => idg.Contains(f.Id))
                 .Include(c => c.Countrys)
                 .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
@@ -85,19 +84,19 @@ namespace MoviesShop.Repository
         }
 
         //Добавление нового фильма
-        public void AddFilm(FilmDTO _film)
+        public Film AddFilm(Film film)
         {
             var FilmsDBQ = _context.Film;
             var FilmsDB = FilmsDBQ.ToList();
 
-            var newFilm = _film.ConvertToFilme();
+            //var newFilm = _film.ConvertToFilme();
 
             if (!FilmsDB.Any(x =>
-             (x.Title == newFilm.Title) &&
-             (x.Countrys.NameOfTheCountry == newFilm.Countrys.NameOfTheCountry) &&
-             (x.Year == newFilm.Year)))
+             (x.Title == film.Title) &&
+             (x.Countrys.NameOfTheCountry == film.Countrys.NameOfTheCountry) &&
+             (x.Year == film.Year)))
             {
-                _context.Film.Add(newFilm);
+                _context.Film.Add(film);
             }
             _context.SaveChanges();
 
@@ -105,7 +104,7 @@ namespace MoviesShop.Repository
             #region
             List<FilmActor> filmActor = new List<FilmActor>();
 
-            foreach (var item in newFilm.FilmActor)
+            foreach (var item in film.FilmActor)
             {
                 if (!filmActor.Any(x => x.ActorId == item.ActorId))
                 {
@@ -119,7 +118,7 @@ namespace MoviesShop.Repository
             #region
             List<FilmGenre> filmGenre = new List<FilmGenre>();
 
-            foreach (var item in newFilm.FilmGenre)
+            foreach (var item in film.FilmGenre)
             {
                 if (!filmGenre.Any(x => x.GenreId == item.GenreId))
                 {
@@ -129,21 +128,22 @@ namespace MoviesShop.Repository
             }
             _context.SaveChanges();
             #endregion
+            return film;
         }
 
         //Редактирование фильма
-        public void EditFilm(int? id, FilmDTO _film)
+        public Film EditFilm(int? id, Film film)
         {
             int idf = (int)id;
 
-            Film film = new Film();
-            film = _film.ConvertToFilme();
+            //Film film = new Film();
+            //film = _film.ConvertToFilme();
 
             var EditFilm = _context.Film.First(x => x.Id == idf);
-            EditFilm.Title = _film.Title;
-            EditFilm.Year = _film.Year;
-            EditFilm.UrlImage = _film.UrlImage;
-            EditFilm.Countrys = _testConunty(_film.CountryDTO.CountryTitle);
+            EditFilm.Title = film.Title;
+            EditFilm.Year = film.Year;
+            EditFilm.UrlImage = film.UrlImage;
+            EditFilm.Countrys = _testConunty(film.Countrys.NameOfTheCountry);
 
             #region Добавление Актёров
             //проверка если такие актёры у фильма в базе.
@@ -183,6 +183,7 @@ namespace MoviesShop.Repository
 
             _context.SaveChanges();
 
+            return film;
         }
        
         //Удаление по Id
