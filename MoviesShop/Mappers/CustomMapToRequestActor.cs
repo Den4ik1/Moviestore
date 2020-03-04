@@ -10,10 +10,10 @@ namespace MoviesShop.Mappers
         {
             //заполнение FilmActor
             List<FilmActor> filmActor = new List<FilmActor>();
-            foreach (var item in @this.FilmsActorDTO)
-            {
-                filmActor.Add(new FilmActor() { ActorId = item.MainId, FilmId = item.SecondId });
-            }
+            //foreach (var item in @this.FilmsActorDTO)
+            //{
+            //    filmActor.Add(new FilmActor() { ActorId = item.MainId, FilmId = item.SecondId });
+            //}
 
             //заполнение Actor
             Actor result = new Actor()

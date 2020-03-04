@@ -55,10 +55,10 @@ namespace MoviesShop.Repository
         }
 
         //Выборка по жанрам
-        public IQueryable<Film> GetFilmsForGenre(string genre)
+        public IQueryable<Film> GetFilmsForGenre(int genre)
         {
             //Вывод Id жанра по токотору совершена выборка
-            var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Title.Contains(genre));
+            var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Id == genre);
             var idg = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
 
             var films = _context.Film.Where(f => idg.Contains(f.Id))
@@ -117,7 +117,8 @@ namespace MoviesShop.Repository
             
             #region
             List<FilmGenre> filmGenre = new List<FilmGenre>();
-
+            //Experemental
+            //foreach (var item in film.FilmGenre.Where(x => x.FilmId == film.Id))
             foreach (var item in film.FilmGenre)
             {
                 if (!filmGenre.Any(x => x.GenreId == item.GenreId))

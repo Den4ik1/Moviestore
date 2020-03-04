@@ -17,49 +17,46 @@ namespace MoviesShop.Controllers
             _repository = repository;
         }
 
-        //Вывод полной информации о (всех актёрах) / (по Id)
-        [HttpGet("{id?}")]
-        public List<ResponseActorDTO> GetFullActors(int? id)
+        //Вывод полной информации о (всех актёрах) / (по Id) / (по имени)
+        [HttpGet("All")]
+        public List<ResponseActorDTO> GetAllActors([FromBody] RequestActorDTO RequestActor)
         {
-            List<ResponseActorDTO> actor = new List<ResponseActorDTO>();
-
-            if (id.HasValue)
+            List<ResponseActorDTO> ResponseActor = new List<ResponseActorDTO>();
+            if (RequestActor != null)
             {
-                actor.Add(_repository.GetForId(id).ConvertToResponseActor());
-                return actor;
+                if (RequestActor.Id > 0)
+                {
+                    ResponseActor.Add(_repository.GetForId(RequestActor.Id).ConvertToResponseActor());
+                    return ResponseActor;
+                }
+                else if (RequestActor.Name != null || RequestActor.Name != "")
+                {
+                    foreach (var item in _repository.GetForName(RequestActor.Name).ToList())
+                    {
+                        ResponseActor.Add(item.ConvertToResponseActor());
+                    };
+                }
             }
-            foreach (var item in _repository.GetFullActor().ToList())
+            else
             {
-                actor.Add(item.ConvertToResponseActor());
+                foreach (var item in _repository.GetFullActor().ToList())
+                {
+                    ResponseActor.Add(item.ConvertToResponseActor());
+                }
             }
-
-            return actor;
+            return ResponseActor;
         }
-        
-        //Поиск по имени
-        [HttpGet("Name/{name}")]
-        public List<ResponseActorDTO> GetActorName(string name)
-        {
-            List<ResponseActorDTO> actor = new List<ResponseActorDTO>();
 
-            foreach (var item in _repository.GetForName(name).ToList())
-            {
-                actor.Add(item.ConvertToResponseActor());
-            };
-            return actor;
-        }
-        
-        // Создание/редактирование актёра
         [HttpPost("{id?}")]
-        public ResponseActorDTO PostActor(int? id, [FromBody] RequestActorDTO actor)
+        public ResponseActorDTO PostActor([FromBody] RequestActorDTO RequestActor)
         {
-            if (id == 0)
+            if (RequestActor.Id > 0)
             {
-                return _repository.AddActor(actor.ConvertToRequestActor())
-                    .ConvertToResponseActor();
+                return _repository.EditActor(RequestActor.Id, RequestActor.ConvertToRequestActor())
+                  .ConvertToResponseActor();
             }
-            return _repository.EditActor(id, actor.ConvertToRequestActor())
-                .ConvertToResponseActor();
+            return _repository.AddActor(RequestActor.ConvertToRequestActor())
+                    .ConvertToResponseActor();
         }
 
         //Удаление актёра по Id

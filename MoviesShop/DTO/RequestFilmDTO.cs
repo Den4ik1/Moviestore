@@ -11,14 +11,19 @@ namespace MoviesShop.DTO
         public string UrlImage { get; set; }
         public CountryDTO CountryDTO { get; set; }
 
-        public List<RelationshipStagingDTO> FilmGenreDTO { get; set; }
+        //public List<RelationshipStagingDTO> FilmGenreDTO { get; set; }
+        public List<int> FilmGenreDTO { get; set; }
 
-        public List<RelationshipStagingDTO> FilmActorDTO { get; set; }
+        //public List<RelationshipStagingDTO> FilmActorDTO { get; set; }
+        public List<int> FilmActorDTO { get; set; }
 
         public RequestFilmDTO()
         {
-            FilmActorDTO = new List<RelationshipStagingDTO>();
-            FilmGenreDTO = new List<RelationshipStagingDTO>();
+            //FilmActorDTO = new List<RelationshipStagingDTO>();
+            //FilmGenreDTO = new List<RelationshipStagingDTO>();
+
+            FilmActorDTO = new List<int>();
+            FilmGenreDTO = new List<int>();
         }
     }
 }

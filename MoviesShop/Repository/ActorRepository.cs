@@ -20,8 +20,8 @@ namespace MoviesShop.Repository
         }
 
         //Вывод всех актёров
-        public IQueryable<Actor> GetFullActor()
         //public List<Actor> GetFullActor()
+        public IQueryable<Actor> GetFullActor()
         {
             //var result = _context.Actor.ToList();//.Select(x=>new {filmAcrt = x.FilmActor, })
 
@@ -30,6 +30,7 @@ namespace MoviesShop.Repository
             .Include(af => af.FilmActor)
             .ThenInclude(f => f.Film)
             .Include(ac => ac.Country);
+
             return result;
         }
 

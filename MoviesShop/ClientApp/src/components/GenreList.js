@@ -8,7 +8,7 @@ const GenreList = props =>
             {props.genres.map(genre =>
                 <div>
                     <button className="genreButton"
-                        onClick={() => props.submitFindeGenre(genre.title)}>
+                        onClick={() => props.submitFindeGenre(genre.id)}>
                         {genre.title}
                     </button> <p />
                 </div>

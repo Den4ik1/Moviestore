@@ -8,26 +8,47 @@ using MoviesShop.Mappers;
 namespace MoviesShop.Controllers
 {
     [Route("api/[controller]")]
-    public class FilmController
+    public class FilmsController
     {
         private readonly FilmRepository _repository;
 
-        public FilmController(FilmRepository repository)
+        public FilmsController(FilmRepository repository)
         {
             _repository = repository;
         }
 
-        //Вывод полной информации о (всех фильмах) / (по Id)
+        //Вывод полной информации о (всех фильмах) / (по Id) / (Поиск по названию) /
         [HttpGet("{id?}")]
-        public List<ResponseFilmDTO> GetFilms(int? id)
+        public List<ResponseFilmDTO> GetFilms([FromBody] RequestFilmDTO _film)
         {
             List<ResponseFilmDTO> film = new List<ResponseFilmDTO>();
-
-            if (id.HasValue)
+            //Выборка по Id
+            if (_film != null)
             {
-                film.Add(_repository.GetForId(id).ConvertToResponseFilm());
-                return film;
+                if (_film.Id > 0)
+                {
+                    film.Add(_repository.GetForId(_film.Id).ConvertToResponseFilm());
+                    return film;
+                }
+                //Выборка по названию
+                else if (_film.Title != null || _film.Title != "")
+                {
+                    foreach (var item in _repository.GetFilmsForTitle(_film.Title).ToList())
+                    {
+                        film.Add(item.ConvertToResponseFilm());
+                    };
+                }
+                //Выборка по жанру
+                else if (_film.FilmGenreDTO != null)
+                {
+                    var t = _film.FilmGenreDTO.FirstOrDefault(x => x > 0);
+                    foreach (var item in _repository.GetFilmsForGenre(_film.FilmGenreDTO.First()))
+                    {
+                        film.Add(item.ConvertToResponseFilm());
+                    };
+                }
             }
+            //Все фильмы
             else
             {
                 foreach (var item in _repository.GetFilms().ToList())
@@ -52,17 +73,17 @@ namespace MoviesShop.Controllers
         }
 
         //Выборка по жанру
-        [HttpGet("genre/{genre}")]
-        public List<ResponseFilmDTO> GetFilmGanre(string genre)
-        {
-            List<ResponseFilmDTO> film = new List<ResponseFilmDTO>();
+        //[HttpGet("genre/{genre}")]
+        //public List<ResponseFilmDTO> GetFilmGanre(string genre)
+        //{
+        //    List<ResponseFilmDTO> film = new List<ResponseFilmDTO>();
 
-            foreach (var item in _repository.GetFilmsForGenre(genre).ToList())
-            {
-                film.Add(item.ConvertToResponseFilm());
-            };
-            return film;
-        }
+        //    foreach (var item in _repository.GetFilmsForGenre(genre).ToList())
+        //    {
+        //        film.Add(item.ConvertToResponseFilm());
+        //    };
+        //    return film;
+        //}
 
         //Вывод фильмов в которых снимался актёр
         [HttpGet("[action]")]
@@ -77,38 +98,40 @@ namespace MoviesShop.Controllers
         }
 
         // Создание/редактирование фильма
-        [HttpPost("{id?}")]
-        public ResponseFilmDTO PostFilm(int? id, [FromBody] RequestFilmDTO _film)
+        [HttpPost]
+        public ResponseFilmDTO PostFilm([FromBody] RequestFilmDTO _film)
         {
-            List<RelationshipStagingDTO> tempActor = new List<RelationshipStagingDTO>(_film.FilmActorDTO);
+            List<int> tempActor = new List<int>(_film.FilmActorDTO);
             _film.FilmActorDTO.Clear();
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             foreach (var item in tempActor)
             {
-                if (!_film.FilmActorDTO.Any(x => x.SecondId == item.SecondId))
+                if (!_film.FilmActorDTO.Any(x => x == item))
                 {
                     _film.FilmActorDTO.Add(item);
                 }
             }
 
             //Удаление дублекатов жанров во влеженном списке
-            List<RelationshipStagingDTO> tempGenre = new List<RelationshipStagingDTO>(_film.FilmGenreDTO);
+            List<int> tempGenre = new List<int>(_film.FilmGenreDTO);
             _film.FilmGenreDTO.Clear();
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             foreach (var item in tempGenre)
             {
-                if (!_film.FilmGenreDTO.Any(x => x.SecondId == item.SecondId))
+                if (!_film.FilmGenreDTO.Any(x => x == item))
                 {
                     _film.FilmGenreDTO.Add(item);
                 }
             }
 
             //Передача данных в репозиторий
-            if (id == 0)
+            if (_film.Id == 0)
             {
                 return _repository.AddFilm(_film.ConvertpToRequestFilm()).ConvertToResponseFilm();
                 //return _film;
             }
             //_repository.EditFilm(id, _film.ConvertpToRequestFilm());
-            return _repository.EditFilm(id, _film.ConvertpToRequestFilm()).ConvertToResponseFilm();
+            return _repository.EditFilm(_film.Id, _film.ConvertpToRequestFilm()).ConvertToResponseFilm();
         }
 
         //Удаление фильма по Id
