@@ -11,7 +11,7 @@ namespace MoviesShop.Repository
     {
         private readonly MoviesShopContext _context;
         private delegate Countrys _сheckConunty(string titleCounty);
-        private _сheckConunty _testConunty;
+        private readonly _сheckConunty _testConunty;
 
         public FilmRepository(MoviesShopContext context)
         {
@@ -22,22 +22,20 @@ namespace MoviesShop.Repository
         //Вывод всех фильмов и доп. информацию (жанры, страна произвотсва и т.д.)
         public IQueryable<Film> GetFilms()
         {
-            var temp = _context.Film
+            var result = _context.Film
                 .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                 .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
                 .Include(c => c.Countrys);
-            var r = temp.ToList();
-
-            return temp;
+            return result;
         }
 
         //Поиск по Id
-        public Film GetId(int? Id)
+        public Film GetForId(int? id)
         {
             var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                  .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
                  .Include(c => c.Countrys)
-                 .First(f => f.Id == Id);
+                 .First(f => f.Id == id);
 
             if (result != null)
             {
@@ -47,7 +45,7 @@ namespace MoviesShop.Repository
         }
 
         //Поиск по названию
-        public IQueryable<Film> GetFilmsTitle(string title)
+        public IQueryable<Film> GetFilmsForTitle(string title)
         {
             var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
@@ -56,33 +54,49 @@ namespace MoviesShop.Repository
             return result;
         }
 
-        //Фильтрация по жанрам
-        public IQueryable<Film> GetFilmsGenre(string genre)
+        //Выборка по жанрам
+        public IQueryable<Film> GetFilmsForGenre(string genre)
         {
+            //Вывод Id жанра по токотору совершена выборка
             var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Title.Contains(genre));
-            var ids = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
-            var films = _context.Film.Where(f => ids.Contains(f.Id))
+            var idg = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
+
+            var films = _context.Film.Where(f => idg.Contains(f.Id))
                 .Include(c => c.Countrys)
                 .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
                 .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
+            return films;
+        }
 
+        //Выборка по актёру
+        public IQueryable<Film> GetFilmsForActor(string actor)
+        {
+            //Вывод Id актйра по токотору совершена выборка
+            var act = _context.Actor.Include(a => a.FilmActor).FirstOrDefault(a => a.Name.Contains(actor));
+            var ida = act.FilmActor.Select(fa => fa.FilmId).ToList();
+
+
+            var films = _context.Film.Where(f => ida.Contains(f.Id))
+                .Include(c => c.Countrys)
+                .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+                .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
             return films;
         }
 
         //Добавление нового фильма
-        public void AddFilm(FilmDTO _film)
+        public Film AddFilm(Film film)
         {
             var FilmsDBQ = _context.Film;
             var FilmsDB = FilmsDBQ.ToList();
 
-            var newFilm = _film.ConvertToFilme();
+            //var newFilm = _film.ConvertToFilme();
 
             if (!FilmsDB.Any(x =>
-             (x.Title == newFilm.Title) &&
-             (x.Countrys.NameOfTheCountry == newFilm.Countrys.NameOfTheCountry) &&
-             (x.Year == newFilm.Year)))
+             (x.Title == film.Title) &&
+             (x.Countrys.NameOfTheCountry == film.Countrys.NameOfTheCountry) &&
+             (x.Year == film.Year)))
             {
-                _context.Film.Add(newFilm);
+                _context.Film.Add(film);
             }
             _context.SaveChanges();
 
@@ -90,7 +104,7 @@ namespace MoviesShop.Repository
             #region
             List<FilmActor> filmActor = new List<FilmActor>();
 
-            foreach (var item in newFilm.FilmActor)
+            foreach (var item in film.FilmActor)
             {
                 if (!filmActor.Any(x => x.ActorId == item.ActorId))
                 {
@@ -104,7 +118,7 @@ namespace MoviesShop.Repository
             #region
             List<FilmGenre> filmGenre = new List<FilmGenre>();
 
-            foreach (var item in newFilm.FilmGenre)
+            foreach (var item in film.FilmGenre)
             {
                 if (!filmGenre.Any(x => x.GenreId == item.GenreId))
                 {
@@ -114,33 +128,36 @@ namespace MoviesShop.Repository
             }
             _context.SaveChanges();
             #endregion
+            return film;
         }
 
         //Редактирование фильма
-        public void EditFilm(int? Id, FilmDTO _film)
+        public Film EditFilm(int? id, Film film)
         {
-            int idf = (int)Id;
+            int idf = (int)id;
 
-            Film film = new Film();
-            film = _film.ConvertToFilme();
+            //Film film = new Film();
+            //film = _film.ConvertToFilme();
 
             var EditFilm = _context.Film.First(x => x.Id == idf);
-            EditFilm.Title = _film.Title;
-            EditFilm.Year = _film.Year;
-            EditFilm.UrlImage = _film.UrlImage;
-            EditFilm.Countrys = _testConunty(_film.CountryDTO.Title);
-            
+            EditFilm.Title = film.Title;
+            EditFilm.Year = film.Year;
+            EditFilm.UrlImage = film.UrlImage;
+            EditFilm.Countrys = _testConunty(film.Countrys.NameOfTheCountry);
+
             #region Добавление Актёров
             //проверка если такие актёры у фильма в базе.
             //собираем все фильмы в которых снимался актёр
             IQueryable<FilmActor> filmActorsDBQ = _context.FilmActor.Where(x => x.FilmId == idf);
             List<FilmActor> filmActorsDB = filmActorsDBQ.ToList();
-
-            foreach (var item in film.FilmActor)
+            if (filmActorsDB != null)
             {
-                if (!filmActorsDB.Any(x => x.ActorId == item.ActorId))
+                foreach (var item in film.FilmActor)
                 {
-                    EditFilm.FilmActor.Add(item);
+                    if (!filmActorsDB.Any(x => x.ActorId == item.ActorId))
+                    {
+                        EditFilm.FilmActor.Add(item);
+                    }
                 }
             }
             _context.SaveChanges();
@@ -151,27 +168,31 @@ namespace MoviesShop.Repository
             //удаление дубликатов жанров, в данных полученных от пользователя
             IQueryable<FilmGenre> filmGenreDBQ = _context.FilmGenre.Where(x => x.FilmId == idf);
             List<FilmGenre> filmGenreDB = filmGenreDBQ.ToList();
-
-            foreach (var item in film.FilmGenre)
+            if (filmGenreDB != null)
             {
-                if (!filmGenreDB.Any(x => x.GenreId == item.GenreId))
+                foreach (var item in film.FilmGenre)
                 {
-                    EditFilm.FilmGenre.Add(item);
+                    if (!filmGenreDB.Any(x => x.GenreId == item.GenreId))
+                    {
+                        EditFilm.FilmGenre.Add(item);
+                    }
                 }
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
             #endregion
 
             _context.SaveChanges();
 
+            return film;
         }
        
         //Удаление по Id
-        public void DeleteFilm(int? Id)
+        public void DeleteFilm(int? id)
         {
-            _context.Film.Remove(_context.Film.First(x => x.Id == Id));
+            _context.Film.Remove(_context.Film.First(x => x.Id == id));
             _context.SaveChanges();
         }
+
     }
 }
 

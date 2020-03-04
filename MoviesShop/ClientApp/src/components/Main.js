@@ -1,11 +1,11 @@
 ﻿import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Films } from './Films'
-import { Actors }  from './Actors'
-import { Users } from './Users'
-import { FilmsEdit } from './FilmsEdit'
-import { ActorEdit } from './ActorEdit'
-import { UserEdit } from './UserEdit'
+import { Films } from './Film/Films'
+import { Actors } from './Actor/Actors'
+import { Users } from './User/Users'
+import { FilmsEdit } from './Film/FilmsEdit'
+import { ActorEdit } from './Actor/ActorEdit'
+import { UserEdit } from './User/UserEdit'
 import '../app.css'
 
  class Main extends React.Component {

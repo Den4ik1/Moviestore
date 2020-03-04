@@ -16,17 +16,22 @@ namespace MoviesShop.Repository
         }
 
         //Вывод всех пользователей и фильмы которые они смотрели.
-        public IQueryable<User> GetUserFilms()
+        public IQueryable<User> GetUsers()
         {
-            var t = _context.User.Include(uf => uf.UserFilm).ThenInclude(f => f.Film);
-            return t;
+            var result = _context.User
+                .Include(uf => uf.UserFilm)
+                .ThenInclude(f => f.Film)
+                .ThenInclude(gf => gf.FilmGenre).ThenInclude(x => x.Genre);
+            return result;
         }
 
         //Вывод по ID
-        public User GetUserId(int? Id)
+        public User GetUserForId(int? id)
         {
-            var result = _context.User.Include(uf => uf.UserFilm).ThenInclude(f => f.Film)
-                 .First(x => x.Id == Id);
+            var result = _context.User
+                .Include(uf => uf.UserFilm)
+                .ThenInclude(f => f.Film)
+                .First(x => x.Id == id);
             if (result != null)
             {
                 return result;
@@ -35,7 +40,7 @@ namespace MoviesShop.Repository
         }
 
         //Поиск по имени
-        public IQueryable<User> GetUserName(string name)
+        public IQueryable<User> GetUserForName(string name)
         {
             var result = _context.User.Include(uf => uf.UserFilm)
                .ThenInclude(f => f.Film)
@@ -47,12 +52,13 @@ namespace MoviesShop.Repository
         public void AddUser( User _user)
         {
            _context.User.Add(_user);
+           _context.SaveChanges();
         }
 
         //Редактирование пользователя
-        public void EditUser(int? Id, User _user)
+        public void EditUser(int? id, User _user)
         {
-            var temp = _context.User.FirstOrDefault(x => x.Id == Id);
+            var temp = _context.User.FirstOrDefault(x => x.Id == id);
             if (temp != null)
             {
                 temp.Name = _user.Name;
@@ -64,9 +70,9 @@ namespace MoviesShop.Repository
         }
 
         //Удаление по ID
-        public void DeleteUser(int? Id)
+        public void DeleteUser(int? id)
         {
-            _context.User.Remove(_context.User.First(x => x.Id == Id));
+            _context.User.Remove(_context.User.First(x => x.Id == id));
             _context.SaveChanges();
         }
     }

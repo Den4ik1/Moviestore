@@ -40,7 +40,6 @@ namespace MoviesShop
             services.AddScoped<ActorRepository>();
             services.AddScoped<GenreRepository>();
             services.AddScoped<FilmActor>();
-           // services.AddScoped<ServiceUserFilms>();
 
 
             services.AddSwaggerGen(c =>
@@ -53,20 +52,6 @@ namespace MoviesShop
                 configuration.RootPath = "ClientApp/build";
             });
         }
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private static IMapper ConfigureAutoMapper()
-        {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DTOUserSmall, User>()
-            //             .ForMember(x => x.Cars, c => c.Ignore()).ReverseMap();
-            //    cfg.CreateMap<DTOCarSmall, Car>().ReverseMap();
-            //});
-            //return config.CreateMapper();
-            return null;
-        }
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

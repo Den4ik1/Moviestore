@@ -2,8 +2,8 @@
 using MoviesShop.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using MoviesShop.DTO;
+using MoviesShop.Mappers;
 
 namespace MoviesShop.Controllers
 {
@@ -11,50 +11,62 @@ namespace MoviesShop.Controllers
     public class ActorsController
     {
         private readonly ActorRepository _repository;
-        private readonly IMapper _mapper;
 
-        public ActorsController(ActorRepository repository, IMapper mapper)
+        public ActorsController(ActorRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
-        //Вывод полной информации о фсех актёрах
-        [HttpGet("{Id?}")]
-        public List<ActorDTO> GetFullActors(int? Id)
+
+        //Вывод полной информации о (всех актёрах) / (по Id)
+        [HttpGet("{id?}")]
+        public List<ResponseActorDTO> GetFullActors(int? id)
         {
-            if (Id.HasValue)
+            List<ResponseActorDTO> actor = new List<ResponseActorDTO>();
+
+            if (id.HasValue)
             {
-                return new List<ActorDTO>() { _mapper.Map<ActorDTO>(_repository.GetId(Id)) };
+                actor.Add(_repository.GetForId(id).ConvertToResponseActor());
+                return actor;
             }
-            return _mapper.Map<List<ActorDTO>>(_repository.GetFullActor().ToList());
+            foreach (var item in _repository.GetFullActor().ToList())
+            {
+                actor.Add(item.ConvertToResponseActor());
+            }
+
+            return actor;
         }
         
         //Поиск по имени
         [HttpGet("Name/{name}")]
-        public List<ActorDTO> getActorName(string name)
+        public List<ResponseActorDTO> GetActorName(string name)
         {
-            return _mapper.Map<List<ActorDTO>>(_repository.GetActorName(name)).ToList();
+            List<ResponseActorDTO> actor = new List<ResponseActorDTO>();
+
+            foreach (var item in _repository.GetForName(name).ToList())
+            {
+                actor.Add(item.ConvertToResponseActor());
+            };
+            return actor;
         }
         
         // Создание/редактирование актёра
-        [HttpPost("{Id?}")]
-        public ActorDTO PostActor(int? Id, [FromBody] ActorDTO _actor)
+        [HttpPost("{id?}")]
+        public ResponseActorDTO PostActor(int? id, [FromBody] RequestActorDTO actor)
         {
-            //Удаление дублекатов во влеженном списке
-            if (Id == 0)
+            if (id == 0)
             {
-                _repository.AddActor(_actor);
-                return _actor;
+                return _repository.AddActor(actor.ConvertToRequestActor())
+                    .ConvertToResponseActor();
             }
-            _repository.EditActor(Id, _actor);
-            return _actor;
+            return _repository.EditActor(id, actor.ConvertToRequestActor())
+                .ConvertToResponseActor();
         }
 
         //Удаление актёра по Id
-        [HttpDelete("{Id?}")]
-        public void Delete(int? Id)
+        [HttpDelete("{id?}")]
+        public void Delete(int? id)
         {
-            _repository.DeleteActor(Id);
+            _repository.DeleteActor(id);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MoviesShop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("BirthDay");
+                    b.Property<DateTime?>("BirthDay");
 
                     b.Property<int?>("CountryId");
 
@@ -164,7 +164,7 @@ namespace MoviesShop.Migrations
             modelBuilder.Entity("MoviesShop.Models.Actor", b =>
                 {
                     b.HasOne("MoviesShop.Models.Countrys", "Country")
-                        .WithMany()
+                        .WithMany("Actor")
                         .HasForeignKey("CountryId");
                 });
 

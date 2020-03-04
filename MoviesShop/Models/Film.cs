@@ -1,9 +1,8 @@
-﻿using MoviesShop.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MoviesShop.Models
 {
-    public class Film : IData
+    public class Film
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -23,7 +22,5 @@ namespace MoviesShop.Models
             FilmGenre = new List<FilmGenre>();
             FilmActor = new List<FilmActor>();
         }
-
-       
     }
 }
