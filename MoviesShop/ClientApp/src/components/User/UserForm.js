@@ -27,16 +27,16 @@ const UserForm = props => {
                         {props.flag ? (
                             <div>
                                 <Label for="id">Id:</Label><p />
-                                <input type="text" name="id" value={props.id} />  <p />
+                                <input type="text" name="id" value={props.id} class="areaSize"/>  <p />
                             </div>
                         ) : (
                             <div />
                         )}
                         <Label for="name">Name:</Label>
-                        <input type="text" name="name" onChange={props.onChange} value={props.name} /><p />
+                        <input type="text" name="name" onChange={props.onChange} value={props.name} class="areaSize"/><p />
 
                         <Label for="age">Age:</Label>
-                        <input type="text" name="age" onChange={props.onChange} value={props.age} />
+                        <input type="text" name="age" onChange={props.onChange} value={props.age} class="areaSize"/>
                     </FormGroup>
                 </td>
             </tr>

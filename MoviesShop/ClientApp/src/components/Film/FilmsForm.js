@@ -40,23 +40,23 @@ const FilmsForm = props => {
                     {props.flag ? (
                         <div>
                             <Label for="id">Id:</Label><p />
-                            <input type="text" name="id" value={props.id} />  <p />
+                            <input type="text" name="id" value={props.id} class="areaSize"/>  <p />
                         </div>
                     ) : (
                             <div />
                         )}
 
                     <Label for="title">Film:</Label>
-                    <input type="text" name="title" onChange={props.onChange} value={props.title} /><p />
+                    <input type="text" name="title" onChange={props.onChange} value={props.title} class="areaSize"/><p />
 
                     <Label for="year">Year:</Label>
-                    <input type="text" name="year" onChange={props.onChange} value={props.year} /><p />
+                    <input type="text" name="year" onChange={props.onChange} value={props.year} class="areaSize"/><p />
 
                     <Label for="countryDTO">Country:</Label>
-                    <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} /><p />
+                    <input type="text" name="countryDTO" onChange={props.onChange} value={props.countryDTO} class="areaSize"/><p />
 
                     <Label for="Image">Url Image:</Label>
-                    <input type="urlImage" name="urlImage" onChange={props.onChange} value={props.urlImage} /><p />
+                    <input type="urlImage" name="urlImage" onChange={props.onChange} value={props.urlImage} class="areaSize"/><p />
 
                     <Label for="genreDTO">Genre:</Label>
                     <textarea name="newListGenre" onChange={props.onChangeArea} value={props.genreDTO.map(r => r).join("\n")} class="areaSize" /><p />
