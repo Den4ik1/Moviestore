@@ -13,8 +13,10 @@ namespace MoviesShop.Mappers
                 .ForMember(dto => dto.Title, opt => opt.MapFrom(c => c.NameOfTheCountry))
                 .ReverseMap();
 
-            CreateMap<Genre, TitleDTO>().ReverseMap();
-           
+            CreateMap<Genre, TitleDTO>()
+                .ForMember(dto => dto.Title, opt => opt.MapFrom(g => g.Title))
+                .ReverseMap();
+
             CreateMap<Actor, TitleDTO>()
                 .ForMember(dto => dto.Title, opt => opt.MapFrom(a => a.Name))
                 .ReverseMap();

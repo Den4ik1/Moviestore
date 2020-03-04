@@ -3,6 +3,7 @@ using MoviesShop.DTO;
 using MoviesShop.Models;
 using System.Collections.Generic;
 using System.Linq;
+using MoviesShop.Mappers;
 
 namespace MoviesShop.Repository
 {
@@ -18,6 +19,7 @@ namespace MoviesShop.Repository
             _testConunty = new ExistCountry(context).TestCountry;
         }
 
+        //Вывод всех актёров
         public IQueryable<Actor> GetFullActor()
         {
             var t = _context.Actor
@@ -27,6 +29,7 @@ namespace MoviesShop.Repository
             return t;
         }
 
+        //Поиск по Id
         public Actor GetId(int? Id)
         {
             var result = _context.Actor
@@ -41,98 +44,6 @@ namespace MoviesShop.Repository
             return new Actor();
         }
 
-        /////////////////////////////////////////////////////////////////////////////
-        /*тут всё ок) Работает. Проблема с переводом DTOModel к BaseModel */
-        #region
-        /////////////////////////////////////////////////////////////////////////////
-        //public void AddActor(int? id, Actor _actor)                              //
-        //{                                                                        //
-        //    var temp = _context.Actor.FirstOrDefault(x => x.Id == id);           //
-        //    if (temp != null)                                                    //
-        //    {                                                                    //
-        //        temp.Name = _actor.Name;                                         //
-        //        temp.BirthDay = _actor.BirthDay;                                 //
-        //        temp.Country = _actor.Country;                                   //
-        //    }                                                                    //
-        //    else                                                                 //
-        //    {                                                                    //
-        //        _context.Actor.Add(_actor);                                      //
-        //    }                                                                    //
-        //    _context.SaveChanges();                                              //
-        // }                                                                       //
-        //                                                                         //
-        /////////////////////////////////////////////////////////////////////////////
-        #endregion
-                       
-        //Редактирование актёра
-        //Вывод его Id
-        //Поиск Id фильма (если не, то создать новый)
-        //Добавление в промежуточную  таблицу обоих Id
-        public void EditActor(int? id, ActorDTO _actor)
-        {
-            ICollection<TitleDTO> filmList;
-            try
-            {
-               filmList = _actor.Films;
-            }
-            catch
-            {
-                filmList = null;
-            }
-            if (!_context.Actor.Any(x => x.Name == _actor.Name))
-            {
-                var newActor = new Actor()
-                {
-                    Name = _actor.Name,
-                    BirthDay = _actor.BirthDay,
-                };
-
-                newActor.Country = _testConunty(_actor.CountryDTO.Title);
-
-                _context.Actor.Add(newActor);
-            }
-            else
-            {
-                var EditActor = _context.Actor.First(x => x.Id == id);
-                EditActor.Name = _actor.Name;
-                EditActor.BirthDay = _actor.BirthDay;
-                EditActor.Country = _testConunty(_actor.CountryDTO.Title);
-            }
-            _context.SaveChanges();
-
-            //добавление фильмов в которых актёр играл
-            int IdActor =  _context.Actor.FirstOrDefault(x => x.Name == _actor.Name).Id;
-            foreach (var item in filmList)
-            {
-                FilmActor fa = new FilmActor() { ActorId = IdActor };
-                if (!_context.Film.Any(x => x.Title == item.Title))
-                {
-                    _context.Film.Add(new Film() { Title = item.Title, Countrys = new Countrys()});
-                    _context.SaveChanges();
-                    fa.FilmId = _context.Film.First(x => x.Title == item.Title).Id;
-                }
-                fa.FilmId = _context.Film.First(x => x.Title == item.Title).Id;
-                _context.FilmActor.Add(fa);
-                _context.SaveChanges();
-            }
-
-        }
-
-        //Добавление актёра
-        public void AddActor(ActorDTO _actor)
-        {
-            var newActor = new Actor()
-            {
-                Name = _actor.Name,
-                BirthDay = _actor.BirthDay,
-            };
-
-            newActor.Country = _testConunty(_actor.CountryDTO.Title);
-
-            _context.Actor.Add(newActor);
-            _context.SaveChanges();
-
-        }
         //Поиск по имени
         public IQueryable<Actor> GetActorName(string name)
         {
@@ -142,6 +53,48 @@ namespace MoviesShop.Repository
                 .Include(ac => ac.Country)
                 .Where(p => p.Name.Contains($"{name}"));
             return result;
+        }
+
+        //Добавление актёра
+        public void AddActor(ActorDTO _actor)
+        {
+            //Вывод всех актёров из бд для проверки
+            var ActorsDBQ = _context.Actor;
+            var ActorsDB = ActorsDBQ.ToList();
+
+            var newActor = _actor.ConvertToActor();
+            
+            //Есть ли такой актёр уже в базе?
+            if (!ActorsDB.Any(x =>
+             (x.Name == newActor.Name) &&
+             (x.BirthDay == newActor.BirthDay) &&
+             (x.Country.NameOfTheCountry == newActor.Country.NameOfTheCountry)))
+            {
+                _context.Actor.Add(newActor);
+            }
+            _context.SaveChanges();
+        }
+
+        //Редактирование актёра
+        //Изменение личных данных актёра (кроме фильмов в которых он снимался)
+        //Добавление новых записей в связную таблицу
+        public void EditActor(int? id, ActorDTO _actor)
+        {
+            int ida = (int)id;
+            //Модель Actor с заполенной FilmActor
+            Actor actor = new Actor();
+            actor = _actor.ConvertToActor();
+
+            //Вносим исправления в данные актёра.
+            var ActorBD = _context.Actor.First(x => x.Id == ida);
+            ActorBD.Name = actor.Name;
+            ActorBD.Country = _testConunty(_actor.CountryDTO.Title);
+
+            foreach (var item in actor.FilmActor)
+            {
+                    ActorBD.FilmActor.Add(item);
+            }
+            _context.SaveChanges();
         }
 
         //удаление по Id

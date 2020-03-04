@@ -12,16 +12,16 @@ export class Actors extends Component {
             indexTitle: '',
             forecasts: [], loading: true
         };
-            this.noChange = this.onChange.bind(this),
+        this.noChange = this.onChange.bind(this),
             this.submitFind = this.submitFind.bind(this),
             this.submitFindeTitle = this.submitFindeTitle.bind(this),
             this.submitDelete = this.submitDelete.bind(this),
 
-        fetch('api/Actors')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ forecasts: data});
-            });
+            fetch('api/Actors')
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({ forecasts: data });
+                });
     }
 
     onChange = e => {

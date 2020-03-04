@@ -39,7 +39,7 @@ namespace MoviesShop
             services.AddScoped<FilmRepository>();
             services.AddScoped<ActorRepository>();
             services.AddScoped<GenreRepository>();
-
+            services.AddScoped<FilmActor>();
            // services.AddScoped<ServiceUserFilms>();
 
 
