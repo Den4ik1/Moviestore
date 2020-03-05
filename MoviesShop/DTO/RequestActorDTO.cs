@@ -11,10 +11,12 @@ namespace MoviesShop.DTO
         public CountryDTO CountryDTO { get; set; }
 
         //public ICollection<RelationshipStagingDTO> FilmsActorDTO { get; set; }
+        public ICollection<int> FilmsActorDTO { get; set; }
 
         public RequestActorDTO()
         {
             //FilmsActorDTO = new List<RelationshipStagingDTO>();
+            FilmsActorDTO = new List<int>();
         }
     }
 }

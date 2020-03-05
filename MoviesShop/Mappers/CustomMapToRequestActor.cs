@@ -6,14 +6,19 @@ namespace MoviesShop.Mappers
 {
     public static class CustomMapToRequestActor
     {
-        public static Actor ConvertToRequestActor(this RequestActorDTO @this)
+        public static Actor ConvertToActor(this RequestActorDTO @this)
         {
             //заполнение FilmActor
             List<FilmActor> filmActor = new List<FilmActor>();
-            //foreach (var item in @this.FilmsActorDTO)
-            //{
-            //    filmActor.Add(new FilmActor() { ActorId = item.MainId, FilmId = item.SecondId });
-            //}
+            foreach (var item in @this.FilmsActorDTO)
+            {
+                filmActor.Add(new FilmActor() { ActorId = @this.Id, FilmId = item });
+            }
+
+            if (@this.CountryDTO == null)
+            {
+                @this.CountryDTO = new CountryDTO();
+            }
 
             //заполнение Actor
             Actor result = new Actor()

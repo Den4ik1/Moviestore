@@ -12,7 +12,7 @@ namespace MoviesShop.Repository
         public UserRepository(MoviesShopContext context) 
         {
             _context = context;
-            new ContextInitializer().Seed(_context);
+            //new ContextInitializer().Seed(_context);
         }
 
         //Вывод всех пользователей и фильмы которые они смотрели.

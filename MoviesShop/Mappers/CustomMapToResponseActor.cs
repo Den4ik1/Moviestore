@@ -14,7 +14,7 @@ namespace MoviesShop.Mappers
             {
                 films.Add(new ResponseFilmDTO()
                 {
-                    Id = item.Id,
+                    Id = item.FilmId,
                     Title = item.Film.Title,
                     Year = item.Film.Year
                 });

@@ -32,7 +32,6 @@ namespace MoviesShop.Mappers
                 GenreDTO = genres,
                 ActorDTO = actors
             };
-
             return filmDTO;
         }
     }

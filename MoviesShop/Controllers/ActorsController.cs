@@ -18,44 +18,41 @@ namespace MoviesShop.Controllers
         }
 
         //Вывод полной информации о (всех актёрах) / (по Id) / (по имени)
-        [HttpGet("All")]
-        public List<ResponseActorDTO> GetAllActors([FromBody] RequestActorDTO RequestActor)
+        [HttpGet("[action]")]
+        public List<ResponseActorDTO> GetActors([FromBody] RequestActorDTO requestActor)
         {
-            List<ResponseActorDTO> ResponseActor = new List<ResponseActorDTO>();
-            if (RequestActor != null)
+            List<ResponseActorDTO> responseActor = new List<ResponseActorDTO>();
+            
+            //если пораметро для поиска не пришло,
+            //создаётся пустая модель,
+            //что бы не поломался Mapper
+            if (requestActor == null)
             {
-                if (RequestActor.Id > 0)
-                {
-                    ResponseActor.Add(_repository.GetForId(RequestActor.Id).ConvertToResponseActor());
-                    return ResponseActor;
-                }
-                else if (RequestActor.Name != null || RequestActor.Name != "")
-                {
-                    foreach (var item in _repository.GetForName(RequestActor.Name).ToList())
-                    {
-                        ResponseActor.Add(item.ConvertToResponseActor());
-                    };
-                }
+                requestActor = new RequestActorDTO();
             }
-            else
+
+            //Вывод всех актёров по запросу
+            var actor = _repository.GetActor(requestActor.ConvertToActor()).ToList();
+
+            //Конветрация актёров к модели для вывода
+            foreach (var item in actor)
             {
-                foreach (var item in _repository.GetFullActor().ToList())
-                {
-                    ResponseActor.Add(item.ConvertToResponseActor());
-                }
+                responseActor.Add(item.ConvertToResponseActor());
             }
-            return ResponseActor;
+
+            return responseActor;
         }
 
-        [HttpPost("{id?}")]
+        // Создание/редактирование актёра
+        [HttpPost("[action]")]
         public ResponseActorDTO PostActor([FromBody] RequestActorDTO RequestActor)
         {
             if (RequestActor.Id > 0)
             {
-                return _repository.EditActor(RequestActor.Id, RequestActor.ConvertToRequestActor())
+                return _repository.EditActor(RequestActor.ConvertToActor())
                   .ConvertToResponseActor();
             }
-            return _repository.AddActor(RequestActor.ConvertToRequestActor())
+            return _repository.AddActor(RequestActor.ConvertToActor())
                     .ConvertToResponseActor();
         }
 
