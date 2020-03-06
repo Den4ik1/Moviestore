@@ -21,25 +21,25 @@ namespace MoviesShop.Repository
             if (actor.Id > 0)
             {
                 return _context.Actor
-                .Include(af => af.FilmActor)
-                .ThenInclude(f => f.Film)
-                .Include(ac => ac.Country)
-                .Where(f => f.Id == actor.Id);
+                    .Include(af => af.FilmActor)
+                    .ThenInclude(f => f.Film)
+                    .Include(ac => ac.Country)
+                    .Where(f => f.Id == actor.Id);
             }
             else if (actor.Name != null && actor.Name != "")
             {
                 return _context.Actor
-                .Where(p => p.Name.Contains($"{actor.Name}"))
-                .Include(af => af.FilmActor)
-                .ThenInclude(f => f.Film)
-                .Include(ac => ac.Country);
+                    .Where(p => p.Name.Contains($"{actor.Name}"))
+                    .Include(af => af.FilmActor)
+                    .ThenInclude(f => f.Film)
+                    .Include(ac => ac.Country);
             }
             else
             {
                 return _context.Actor
-                .Include(af => af.FilmActor)
-                .ThenInclude(f => f.Film)
-                .Include(ac => ac.Country);
+                    .Include(af => af.FilmActor)
+                    .ThenInclude(f => f.Film)
+                    .Include(ac => ac.Country);
             }
         }
 

@@ -19,59 +19,95 @@ namespace MoviesShop.Repository
 
         public IQueryable<Film> GetFilm(Film film)
         {
+            if (film != null)
+            {
+                //Выборка по Id
+                if (film.Id > 0)
+                {
+                    return _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+                        .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
+                        .Include(c => c.Countrys)
+                        .Where(f => f.Id == film.Id);
+                }
+                //Выборка по названию
+                else if (film.Title != null && film.Title != "")
+                {
+                    return _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+                       .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
+                       .Include(c => c.Countrys)
+                       .Where(p => p.Title.Contains($"{film.Title }"));
+                }
+                //Выборка по жанру
+                else if (film.FilmGenre != null)
+                {
+                    var genre = _context.Genre.Include(g => g.FilmGenre)
+                        .FirstOrDefault(g => g.Id == film.FilmGenre.Select(x => x.GenreId).Single());
+                    var idGenre = genre.FilmGenre.Select(fg => fg.FilmId).ToList();
 
-
-            return null;
+                    var films = _context.Film.Where(f => idGenre.Contains(f.Id))
+                        .Include(c => c.Countrys)
+                        .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+                        .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
+                    return films;
+                }
+            }
+            
+            //Вывод всех фильмов
+            return _context.Film
+                    .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+                    .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
+                    .Include(c => c.Countrys);
+            
         }
 
         //Вывод всех фильмов и доп. информацию (жанры, страна произвотсва и т.д.)
-        public IQueryable<Film> GetFilms()
-        {
-            var result = _context.Film
-                .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
-                .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
-                .Include(c => c.Countrys);
-            return result;
-        }
+        //public IQueryable<Film> GetFilms()
+        //{
+        //    var result = _context.Film
+        //        .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+        //        .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
+        //        .Include(c => c.Countrys);
+        //    return result;
+        //}
 
         //Поиск по Id
-        public Film GetForId(int? id)
-        {
-            var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
-                 .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
-                 .Include(c => c.Countrys)
-                 .First(f => f.Id == id);
+        //public Film GetForId(int? id)
+        //{
+        //    var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+        //         .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
+        //         .Include(c => c.Countrys)
+        //         .First(f => f.Id == id);
 
-            if (result != null)
-            {
-                return result;
-            }
-            return new Film();
-        }
+        //    if (result != null)
+        //    {
+        //        return result;
+        //    }
+        //    return new Film();
+        //}
 
         //Поиск по названию
-        public IQueryable<Film> GetFilmsForTitle(string title)
-        {
-            var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
-               .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
-               .Include(c => c.Countrys)
-               .Where(p => p.Title.Contains($"{title}"));
-            return result;
-        }
+        //public IQueryable<Film> GetFilmsForTitle(string title)
+        //{
+        //    var result = _context.Film.Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+        //       .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre)
+        //       .Include(c => c.Countrys)
+        //       .Where(p => p.Title.Contains($"{title}"));
+        //    return result;
+        //}
 
         //Выборка по жанрам
-        public IQueryable<Film> GetFilmsForGenre(int genre)
-        {
-            //Вывод Id жанра по токотору совершена выборка
-            var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Id == genre);
-            var idg = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
+        //public IQueryable<Film> GetFilmsForGenre(int genre)
+        //{
+        //    //Вывод Id жанра по токотору совершена выборка
+        //    var gen = _context.Genre.Include(g => g.FilmGenre).FirstOrDefault(g => g.Id == genre);
+        //    var idg = gen.FilmGenre.Select(fg => fg.FilmId).ToList();
 
-            var films = _context.Film.Where(f => idg.Contains(f.Id))
-                .Include(c => c.Countrys)
-                .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
-                .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
-            return films;
-        }
+        //    var films = _context.Film.Where(f => idg.Contains(f.Id))
+        //        .Include(c => c.Countrys)
+        //        .Include(af => af.FilmActor).ThenInclude(a => a.Actor)
+        //        .Include(gf => gf.FilmGenre).ThenInclude(g => g.Genre);
+        //    return films;
+        //}
 
         //Выборка по актёру
         public IQueryable<Film> GetFilmsForActor(string actor)

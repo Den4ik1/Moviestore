@@ -18,45 +18,60 @@ namespace MoviesShop.Controllers
         }
 
         //Вывод полной информации о (всех фильмах) / (по Id) / (Поиск по названию) /
-        [HttpGet("{id?}")]
-        public List<ResponseFilmDTO> GetFilms([FromBody] RequestFilmDTO _film)
+        [HttpGet("[action]")]
+        public List<ResponseFilmDTO> GetFilms([FromBody] RequestFilmDTO requestFilm)
         {
-            List<ResponseFilmDTO> film = new List<ResponseFilmDTO>();
+            List<ResponseFilmDTO> responseFilm = new List<ResponseFilmDTO>();
+
+            if (requestFilm == null)
+            {
+                requestFilm = new RequestFilmDTO();
+            }
+
+            var film = _repository.GetFilm(requestFilm.ConvertpToRequestFilm()).ToList();
+
+            foreach (var item in film)
+            {
+                responseFilm.Add(item.ConvertToResponseFilm());
+            }
+
+            return responseFilm;
+
             //Выборка по Id
-            if (_film != null)
-            {
-                if (_film.Id > 0)
-                {
-                    film.Add(_repository.GetForId(_film.Id).ConvertToResponseFilm());
-                    return film;
-                }
-                //Выборка по названию
-                else if (_film.Title != null)
-                {
-                    foreach (var item in _repository.GetFilmsForTitle(_film.Title).ToList())
-                    {
-                        film.Add(item.ConvertToResponseFilm());
-                    };
-                }
-                //Выборка по жанру
-                else if (_film.FilmGenreDTO != null)
-                {
-                    var t = _film.FilmGenreDTO.FirstOrDefault(x => x > 0);
-                    foreach (var item in _repository.GetFilmsForGenre(_film.FilmGenreDTO.First()))
-                    {
-                        film.Add(item.ConvertToResponseFilm());
-                    };
-                }
-            }
-            //Все фильмы
-            else
-            {
-                foreach (var item in _repository.GetFilms().ToList())
-                {
-                    film.Add(item.ConvertToResponseFilm());
-                }
-            }
-            return film;
+            //if (requestFilm != null)
+            //{
+            //    if (requestFilm.Id > 0)
+            //    {
+            //        responseFilm.Add(_repository.GetForId(requestFilm.Id).ConvertToResponseFilm());
+            //        return responseFilm;
+            //    }
+            //    //Выборка по названию
+            //    else if (requestFilm.Title != null)
+            //    {
+            //        foreach (var item in _repository.GetFilmsForTitle(requestFilm.Title).ToList())
+            //        {
+            //            responseFilm.Add(item.ConvertToResponseFilm());
+            //        };
+            //    }
+            //    //Выборка по жанру
+            //    else if (requestFilm.FilmGenreDTO != null)
+            //    {
+            //        var t = requestFilm.FilmGenreDTO.FirstOrDefault(x => x > 0);
+            //        foreach (var item in _repository.GetFilmsForGenre(requestFilm.FilmGenreDTO.First()))
+            //        {
+            //            responseFilm.Add(item.ConvertToResponseFilm());
+            //        };
+            //    }
+            //}
+            ////Все фильмы
+            //else
+            //{
+            //    foreach (var item in _repository.GetFilms().ToList())
+            //    {
+            //        responseFilm.Add(item.ConvertToResponseFilm());
+            //    }
+            //}
+            //return responseFilm;
         }
 
         //Вывод фильмов в которых снимался актёр
